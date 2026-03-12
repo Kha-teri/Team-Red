@@ -1,0 +1,10 @@
+@use './colors.scss' as *;
+@use './fonts.scss' as *;
+
+.container {
+    display: flex;
+    background-color: $card;
+    width: 60vw;
+    height: 80vh;
+    color: $text-main;
+}

@@ -1,2 +1,47 @@
 @use './colors.scss' as *;
 @use './fonts.scss' as *;
+
+.container {
+    position: relative;
+    width: 100%;
+    min-height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: clamp(1rem, 5vw, 3rem);
+    overflow: hidden;
+
+    &::before, &::after {
+        content: '';
+        position: absolute;
+        width: clamp(200px, 40vw, 500px);
+        height: clamp(200px, 40vw, 500px);
+        border-radius: 50%;
+        filter: blur(120px);
+        z-index: 0;
+        opacity: 0.4;
+        pointer-events: none;
+    }
+
+    &::before {
+        top: -10%;
+        left: -10%;
+        background-color: $accent;
+    }
+
+    &::after {
+        bottom: -5%;
+        right: -5%;
+        background-color: $glow;
+    }
+
+    .wrapper {
+        position: relative;
+        z-index: 1;
+        width: 100%;
+        max-width: 1400px;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+    }
+}

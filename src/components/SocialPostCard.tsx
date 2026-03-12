@@ -2,9 +2,12 @@
 
 import styles from '../scss/SocialPostCard.module.scss';
 
-
 function SocialPostCard() {
-    return;
+    return (
+        <div className={styles.container}>
+            
+        </div>
+    );
 }
 
 export default SocialPostCard;
