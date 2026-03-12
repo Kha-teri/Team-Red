@@ -1,0 +1,60 @@
+@use './colors.scss' as *;
+@use './fonts.scss' as *;
+
+.container {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    gap: $s2;
+    //overflow: hidden;
+
+    .prompt {
+        width: 100%;
+        min-height: clamp(7rem, 25vh, 10rem);
+        background: rgba(0, 0, 0, 0.2);
+        border-radius: $s3;
+        color: $text-main;
+        font-family: $font-secondary;
+        font-size: clamp($s2, 1.25vw, $s3);
+        padding: min($s2, 3%);
+        outline: none;
+        resize: none;
+        transition: all 0.3s ease;
+        overflow-y: auto;
+
+        &::placeholder {
+            color: $text-secondary;
+        }
+
+        &:hover {
+            border: 1px solid $accent;
+        }
+
+        &:focus {
+            border-color: rgba($glow, 0.5);
+            background: rgba(0, 0, 0, 0.3);
+            box-shadow: 0 0 10px rgba($accent, 0.7);
+        }
+
+        &::-webkit-scrollbar {
+            width: 5px;
+            height: 40%;
+        }
+
+        &::-webkit-scrollbar-track {
+            background: transparent;
+            margin: $s2;
+        }
+
+        &::-webkit-scrollbar-thumb {
+            background:rgba(white, 0.5);
+            border: 4px solid transparent;
+            border-radius: $s2;
+
+            &:hover {
+                background-color: rgba(white, 0.4);
+                cursor: auto;
+            }
+        }
+    }
+}

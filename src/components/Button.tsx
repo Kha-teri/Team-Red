@@ -2,9 +2,14 @@
 
 import styles from '../scss/Button.module.scss';
 
-function Button () {
+interface ButtonProps {
+    usage: 'generate' | 'login' | 'register' | 'secondary';
+    text: string;
+}
+
+function Button ( {usage, text} : ButtonProps) {
     return (
-        <></>
+        <button className={styles[usage]}>{text}</button>
     );
 }
 

@@ -3,7 +3,11 @@
 import styles from '../scss/PostContent.module.scss';
 
 function PostContent () {
-    return;
+    return (
+        <div className={styles.container}>
+            
+        </div>
+    );
 }
 
 export default PostContent;

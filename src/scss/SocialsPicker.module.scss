@@ -1,2 +1,55 @@
 @use './colors.scss' as *;
 @use './fonts.scss' as *;
+
+.container {
+    width: 100%;
+    display: flex;
+    //background-color: black;
+    justify-content: center;
+    align-items: center;
+    margin-top: min(2rem, 7%);
+    gap: $s3;
+    flex-direction: column;
+    
+    label {
+        font-size: clamp(1rem, 1.2vw, 1.4rem);
+        color: $text-main;
+        font-family: $font-secondary;
+    }
+
+    .socialsPicker {
+        width: 100%;
+        display: flex;
+        justify-content: center;
+        gap: min($s2, 1.5rem);
+
+        button {
+            width: clamp(2.5rem, 5vw, 3.5rem);
+            aspect-ratio: 1/1;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            background: rgba(white, 0.05);
+            border: 1px solid rgba(255, 255, 255, 0.3);
+            border-radius: $s2;
+            padding: $s1;
+            cursor: pointer;
+            transition: all 0.25s ease;
+
+            &:hover {
+                border-color: $accent;
+            }
+
+            img {
+                width: 90%;
+                aspect-ratio: 1/1;
+                object-fit: contain;
+            }
+        }
+
+        .active {
+            border: 1px solid $glow;
+            box-shadow: 0 0 10px rgba($accent, 0.7);
+        }
+    }
+}

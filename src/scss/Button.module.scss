@@ -1,3 +1,36 @@
 @use './colors.scss' as *;
 @use './fonts.scss' as *;
 
+.generate {
+    height: clamp(3.5rem, 8vh, 4.5rem);
+    width: 80%;
+    margin: 0 auto;
+    color: $text-main;
+    user-select: none;
+    border-radius: $s2;
+    font-family: $font-main;
+    font-size: clamp(1rem, 1.2vw, 1.2rem);
+    letter-spacing: 0.5px;
+    cursor: pointer;
+    border: 1px solid transparent;
+    position: relative;
+    outline: none;
+    background: linear-gradient(rgba($card, 0.9), rgba($card, 0.9)) padding-box, linear-gradient(135deg, $accent, $glow, $accent) border-box;
+    background-size: 100% 100%, 200% 200%;
+    background-position: 0% 0% 0% 0%;
+    transition: transform 0.3s ease, box-shadow 0.3s ease, background-position 0.6s ease;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+
+    &:hover {
+        transform: translateY(-2px);
+        background-position: 0% 0%, 100% 100%;
+        box-shadow: 0 8px 20px rgba($accent, 0.2);
+        color: #fff;
+        text-shadow: 0 0 8px rgba(255, 255, 255, 0.3);
+    }
+
+    &:active {
+        transform: translateY(0);
+        transition: 0.1s;
+    }
+}

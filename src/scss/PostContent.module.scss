@@ -1,2 +1,19 @@
 @use './colors.scss' as *;
 @use './fonts.scss' as *;
+
+.container {
+    display: flex;
+    flex-direction: column;
+    position: relative;
+    z-index: 10;
+    background: linear-gradient(135deg, rgba(255, 255, 255, 0.1) 0%, rgba(255, 255, 255, 0.03) 100%); 
+    backdrop-filter: blur(30px) saturate(150%);
+    -webkit-backdrop-filter: blur(30px) saturate(150%); //dla safari
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    border-top: 1px solid rgba(255, 255, 255, 0.4);
+    width: clamp(250px, 25vw, 500px);
+    min-height: clamp(400px, 80vh, 850px);
+    border-radius: clamp(1.5rem, 3vw, 2.5rem);
+    padding: clamp(1.5rem, 5vw, 3rem);  
+    color: $text-main;
+}
