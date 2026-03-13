@@ -3,8 +3,9 @@
 import styles from '../scss/Button.module.scss';
 
 interface ButtonProps {
-    usage: 'generate' | 'login' | 'register' | 'secondary';
+    usage: 'generate' | 'post' | 'copy' | 'login' | 'register';
     text: string;
+    onClick?: () => void;
 }
 
 function Button ( {usage, text} : ButtonProps) {

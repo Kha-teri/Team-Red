@@ -1,6 +1,11 @@
 @use './colors.scss' as *;
 @use './fonts.scss' as *;
 
+@keyframes flow {
+    0% {background-position: 0% 50%; }
+    100% {background-position: 200% 50%;}
+}
+
 .generate {
     height: clamp(3.5rem, 8vh, 4.5rem);
     width: 80%;
@@ -34,3 +39,53 @@
         transition: 0.1s;
     }
 }
+
+.copy, .post {
+    font-family: $font-main;
+    font-weight: 600;
+    cursor: pointer;
+    border-radius: $s2;
+    padding: clamp(0.8rem, 1.5vw, 1.4rem);
+    transition: all 0.3s ease;
+    color: $text-main;
+    font-size: clamp(0.9rem, 1vw, 1.1rem);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    outline: none;
+    user-select: none;
+}
+
+.copy {
+    border: 1px solid rgba(white, 0.2);
+    background: rgba(white, 0.05);
+
+    &:hover {
+        background: rgba(white, 0.15);
+        transform: translateY(-2px);
+        border-color: rgba(white, 0.4);
+    }
+}
+
+.post {
+    border: 2px solid transparent;
+    background: 
+        linear-gradient(rgba($card, 0.9), rgba($card, 0.9)) padding-box, 
+        linear-gradient(90deg, $accent, $glow, $accent) border-box;
+    background-size: 100% 100%, 200% 100%;
+    animation: flow 4s linear infinite;
+    
+    &:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 0 20px rgba($glow, 0.4);
+        animation-duration: 2s;
+    }
+}
+
+.copy, .post {
+     &:active {
+        transform: translateY(0);
+        transition: 0.1s;
+    }
+}
+

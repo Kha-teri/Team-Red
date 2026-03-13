@@ -12,8 +12,49 @@
     border: 1px solid rgba(255, 255, 255, 0.2);
     border-top: 1px solid rgba(255, 255, 255, 0.4);
     width: clamp(250px, 25vw, 500px);
-    min-height: clamp(400px, 80vh, 850px);
+    height: clamp(400px, 80vh, 850px);
     border-radius: clamp(1.5rem, 3vw, 2.5rem);
     padding: clamp(1.5rem, 5vw, 3rem);  
     color: $text-main;
+    overflow: hidden;
+
+    .scrollArea {
+        flex: 1;
+        overflow-y: auto;
+        margin-bottom: $s2;
+        padding-right: $s1;
+
+        &::-webkit-scrollbar {
+            width: 4px;
+        }
+
+        &::-webkit-scrollbar-thumb {
+            background: rgba(white, 0.2);
+            border-radius: $s2;
+        }
+
+        .content {
+            p {
+                font-family: $font-main;
+                line-height: 1.5;
+                font-size: clamp(0.8rem, 1.2vw, 1.4rem);
+                white-space: pre-wrap;
+                word-wrap: break-word;
+            }
+        }
+    }
+
+    .footer {
+        display: flex;
+        gap: $s2;
+        justify-content: center;
+        flex-wrap: wrap;
+        padding-top: $s2;
+        border-top: 1px solid rgba(255, 255, 255, 0.1);
+
+        button {
+            flex: 1;
+            min-width: 0;
+        }
+    }
 }
