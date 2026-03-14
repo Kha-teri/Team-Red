@@ -11,7 +11,7 @@ function App() {
     <div className={styles.container}>
       <div className={styles.wrapper}>
         <SocialPostCard />
-        <PostContent />
+        <PostContent content="ai responseeee"/>
       </div>
     </div>
   )

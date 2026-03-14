@@ -5,12 +5,12 @@ import styles from '../scss/Button.module.scss';
 interface ButtonProps {
     usage: 'generate' | 'post' | 'copy' | 'login' | 'register';
     text: string;
-    onClick?: () => void;
+    onBtnClick?: () => void;
 }
 
-function Button ( {usage, text} : ButtonProps) {
+function Button ( {usage, text, onBtnClick} : ButtonProps) {
     return (
-        <button className={styles[usage]}>{text}</button>
+        <button className={styles[usage]} onClick={onBtnClick}>{text}</button>
     );
 }
 
