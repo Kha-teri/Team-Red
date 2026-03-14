@@ -46,4 +46,23 @@
         flex-wrap: wrap;
         gap: clamp(1.5rem, 3vw, 3rem);
     }
+
+    .responseSection {
+        display: flex;
+        flex-direction: column;
+        gap: clamp(0.8rem, 2vh, 1.2rem);
+        width: clamp(250px, 25vw, 500px);
+    }
+
+    .authButtons {
+        display: flex;
+        gap: clamp(0.6rem, 1.2vw, 1rem);
+        justify-content: flex-end;
+        flex-wrap: wrap;
+
+        button {
+            flex: 1;
+            min-width: 140px;
+        }
+    }
 }

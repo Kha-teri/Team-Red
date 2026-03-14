@@ -89,3 +89,51 @@
     }
 }
 
+.login, .register {
+    font-family: $font-main;
+    font-weight: 600;
+    border-radius: $s2;
+    height: clamp(2.8rem, 6vh, 3.4rem);
+    padding: 0 clamp(1rem, 2vw, 1.4rem);
+    cursor: pointer;
+    transition: transform 0.25s ease, box-shadow 0.25s ease, background-color 0.25s ease, border-color 0.25s ease;
+    font-size: clamp(0.9rem, 1vw, 1rem);
+    user-select: none;
+}
+
+.login {
+    color: $text-main;
+    border: 1px solid rgba(white, 0.28);
+    background: rgba(white, 0.04);
+
+    &:hover {
+        transform: translateY(-2px);
+        background: rgba(white, 0.14);
+        border-color: rgba(white, 0.5);
+    }
+}
+
+.register {
+    color: $text-main;
+    border: 2px solid transparent;
+    background:
+        linear-gradient(rgba($card, 0.9), rgba($card, 0.9)) padding-box,
+        linear-gradient(90deg, $accent, $glow, $accent) border-box;
+    background-size: 100% 100%, 200% 100%;
+    animation: flow 4s linear infinite;
+    box-shadow: 0 6px 14px rgba($glow, 0.2);
+
+    &:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 0 20px rgba($glow, 0.4);
+        animation-duration: 2s;
+    }
+}
+
+.login, .register {
+    &:active {
+        transform: translateY(0);
+        transition: 0.1s;
+    }
+}
+

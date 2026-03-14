@@ -1,5 +1,4 @@
 //glowny komponent, layout
-
 import { useState } from 'react'
 import styles from '../scss/App.module.scss'
 import Button from './Button'
@@ -11,7 +10,15 @@ function App() {
     <div className={styles.container}>
       <div className={styles.wrapper}>
         <SocialPostCard />
-        <PostContent content="ai responseeee"/>
+
+        <div className={styles.responseSection}>
+          <div className={styles.authButtons}>
+            <Button usage="register" text="Register" />
+            <Button usage="login" text="Login" />
+          </div>
+
+          <PostContent content="ai responseeee" />
+        </div>
       </div>
     </div>
   )
