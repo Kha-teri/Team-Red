@@ -1,0 +1,62 @@
+@use './colors.scss' as *;
+@use './fonts.scss' as *;
+
+.screen {
+    min-height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: clamp(1.6rem, 4vw, 3.2rem);
+}
+
+.card {
+    width: min(46rem, 100%);
+    border-radius: $s3;
+    border: 1px solid rgba(white, 0.12);
+    background: rgba($card, 0.9);
+    padding: clamp(1.6rem, 3.5vw, 2.8rem);
+    box-shadow: 0 16px 40px rgba(0, 0, 0, 0.32);
+
+    h1 {
+        font-family: $font-secondary;
+        color: $text-main;
+        font-size: clamp(2.2rem, 4.8vw, 3rem);
+        margin-bottom: $s3;
+    }
+}
+
+.form {
+    display: flex;
+    flex-direction: column;
+    gap: $s2;
+
+    label {
+        color: $text-secondary;
+        font-family: $font-main;
+        font-size: 1.3rem;
+    }
+
+    input {
+        width: 100%;
+        border-radius: $s1;
+        border: 1px solid rgba(white, 0.18);
+        background: rgba($bg-main, 0.65);
+        color: $text-main;
+        padding: 1.1rem 1.2rem;
+        font-family: $font-main;
+        font-size: 1.4rem;
+        margin-bottom: $s1;
+
+        &:focus {
+            outline: none;
+            border-color: rgba($glow, 0.7);
+            box-shadow: 0 0 0 3px rgba($glow, 0.2);
+        }
+    }
+}
+
+.footer {
+    margin-top: $s3;
+    display: flex;
+    justify-content: flex-end;
+}

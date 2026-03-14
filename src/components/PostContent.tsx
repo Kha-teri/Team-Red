@@ -14,6 +14,15 @@ const handleCopy = (text: string) => {
 }
 
 function PostContent ( {content, onCopy, onPost } : PostContentProps) {
+    const handleCopyClick = () => {
+        if (onCopy) {
+            onCopy();
+            return;
+        }
+
+        handleCopy(content);
+    }
+
     return (
         <div className={styles.container}>
             <div className={styles.scrollArea}>
@@ -23,8 +32,8 @@ function PostContent ( {content, onCopy, onPost } : PostContentProps) {
             </div>
 
             <div className={styles.footer}>
-                <Button usage="copy" text="Copy" onBtnClick={() => handleCopy(content)}></Button>
-                <Button usage="post" text="Post"></Button>
+                <Button usage="copy" text="Copy" onBtnClick={handleCopyClick}></Button>
+                <Button usage="post" text="Post" onBtnClick={onPost}></Button>
             </div>
         </div>
     );
