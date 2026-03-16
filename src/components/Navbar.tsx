@@ -1,10 +1,12 @@
 import styles from '../scss/Navbar.module.scss'
 import { useState } from 'react'
 import Button from './Button.tsx';
+import { useNavigate } from 'react-router-dom';
 
 function Navbar() {
     const [isNavOpen, setIsNavOpen] = useState(false);
     const src = isNavOpen === false ? '/img/navbar_closed.svg' : '/img/navbar_open.svg';
+    const navigate = useNavigate();
 
     return (
         <>
@@ -17,8 +19,8 @@ function Navbar() {
                         <h2>Menu</h2>
                     </div>
                     <nav className={styles.navLinks}>
-                        <Button usage="navbar" text="About" onBtnClick={() => console.log("About")} />
-                        <Button usage="navbar" text="Contact" onBtnClick={() => console.log("Contact")} />
+                        <Button usage="navbar" text="About" onBtnClick={() => navigate('/about')} />
+                        <Button usage="navbar" text="Contact" onBtnClick={() => navigate('/contact')} />
                     </nav>
                 </div>
             </div>
