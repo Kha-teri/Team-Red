@@ -7,6 +7,9 @@ import Button from './Button'
 import SocialPostCard from './SocialPostCard.tsx'
 import PostContent from './PostContent.tsx'
 import RegisterPage from './RegisterPage.tsx'
+import Navbar from './Navbar.tsx'
+import AboutPage from './AboutPage.tsx'
+import ContactPage from './ContactPage.tsx'
 
 function HomePage() {
   const navigate = useNavigate()
@@ -21,6 +24,7 @@ function HomePage() {
 
   return (
     <div className={styles.container}>
+      <Navbar />
       <div className={styles.wrapper}>
         <SocialPostCard />
 
@@ -79,6 +83,8 @@ function App() {
     <Routes>
       <Route path="/" element={<HomePage />} />
       <Route path="/register" element={<RegisterPage />} />
+      <Route path="/about" element={<AboutPage />} />
+      <Route path="/contact" element={<ContactPage />} />
     </Routes>
   )
 }

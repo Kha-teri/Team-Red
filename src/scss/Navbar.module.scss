@@ -1,0 +1,106 @@
+@use './colors.scss' as *;
+@use './fonts.scss' as *;
+
+.navTrigger {
+    position: absolute;
+    top: clamp(1.5rem, 4vw, 3rem);
+    left: clamp(1.5rem, 4vw, 3rem);
+    z-index: 110;
+    background: rgba(255, 255, 255, 0.05);
+    border: 1px solid rgba(255, 255, 255, 0.15);
+    border-radius: 1rem;
+    width: clamp(2rem, 2.5vw, 3.5rem);
+    height: clamp(2rem, 2.5vw, 3.5rem);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    cursor: pointer;
+    backdrop-filter: blur(10px);
+    transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+
+    img {
+        width: 55%;
+        transition: transform 0.3s ease;
+    }
+
+    &:hover {
+        background: rgba(255, 255, 255, 0.1);
+        border-color: rgba($glow, 0.5);
+    }
+}
+
+.navTriggerActive {
+    left: calc(clamp(200px, 25vw, 350px) + 1.5rem);
+}
+
+.sidebar {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: clamp(200px, 25vw, 350px);
+    height: 100%;
+    z-index: 100;
+    background: linear-gradient(180deg, rgba($card, 0.95) 0%, rgba($bg-main, 0.9) 100%);
+    backdrop-filter: blur(30px) saturate(160%);
+    border-right: 1px solid rgba(255, 255, 255, 0.1);
+    
+    display: flex;
+    flex-direction: column;
+    padding: 8rem 2rem 2rem;
+    transform: translateX(-100%);
+    transition: transform 0.5s cubic-bezier(0.77, 0, 0.175, 1);
+
+    .logoSpace {
+        margin-bottom: 3rem;
+
+        h2 {
+            color: $glow;
+            font-family: $font-main;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+            font-size: 1.2rem;
+        }
+    }
+
+    .navLinks {
+        flex: 1;
+        display: flex;
+        flex-direction: column;
+        gap: 1.2rem;
+
+        button {
+            width: 100%;
+            justify-content: flex-start;
+            padding-left: 1.5rem;
+        }
+    }
+
+    .sidebarFooter {
+        color: $text-secondary;
+        font-size: 0.8rem;
+        text-align: center;
+        opacity: 0.6;
+    }
+}
+
+.sidebarOpen {
+    transform: translateX(0);
+    box-shadow: 20px 0 50px rgba(0, 0, 0, 0.5);
+}
+
+.overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.4);
+    z-index: 90;
+    backdrop-filter: blur(4px);
+    animation: fadeIn 0.3s ease;
+}
+
+@keyframes fadeIn {
+    from { opacity: 0; }
+    to { opacity: 1; }
+}
