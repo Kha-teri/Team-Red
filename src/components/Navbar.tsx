@@ -1,5 +1,5 @@
 import styles from '../scss/Navbar.module.scss'
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import Button from './Button.tsx';
 import { useNavigate } from 'react-router-dom';
 
@@ -7,6 +7,20 @@ function Navbar() {
     const [isNavOpen, setIsNavOpen] = useState(false);
     const src = isNavOpen === false ? '/img/navbar_closed.svg' : '/img/navbar_open.svg';
     const navigate = useNavigate();
+
+    useEffect(() => {
+        const handleKeyDown = (event: KeyboardEvent) => {
+            if(event.key === 'Escape')
+                setIsNavOpen(false);
+        };
+
+        if(isNavOpen)
+            window.addEventListener('keydown', handleKeyDown);
+
+        return () => {
+            window.removeEventListener('keydown', handleKeyDown);
+        }
+    }, [isNavOpen]);
 
     return (
         <>

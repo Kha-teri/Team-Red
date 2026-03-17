@@ -18,9 +18,7 @@ function SocialsPicker() {
             <label>Pick socials for your post</label>
             <div className={styles.socialsPicker}>
                 {['linkedin', 'facebook', 'instagram'].map((social) => (
-                    <>
-                        <button key={social} className={selectedSocials.includes(social) ? styles.active : ''} onClick={() => handleToggleSocial(social)}><img src={`/img/${social}_icon.svg`} alt={social} /></button>
-                    </>
+                    <button key={social} className={selectedSocials.includes(social) ? styles.active : ''} onClick={() => handleToggleSocial(social)}><img src={`/img/${social}_icon.svg`} alt={social} /></button>
                 ))}
             </div>
         </div>

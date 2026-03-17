@@ -25,53 +25,50 @@ function HomePage() {
   return (
     <div className={styles.container}>
       <Navbar />
+      
       <div className={styles.wrapper}>
-        <SocialPostCard />
+        <div className={styles.authButtons}>
+          <Button usage="register" text="Register" onBtnClick={() => navigate("/register")} />
 
-        <div className={styles.responseSection}>
-          <div className={styles.authButtons}>
-            <Button usage="register" text="Register" onBtnClick={() => navigate('/register')} />
+          <div className={styles.loginSlot}>
+            <Button usage="login" text="Login" onBtnClick={() => setIsLoginOpen((prev) => !prev)} />
+            
+            <form 
+              className={`${styles.loginDropdown} ${isLoginOpen ? styles.loginDropdownOpen : ''}`}
+              onSubmit={handleLoginSubmit}
+              noValidate
+            >
+              <label className={styles.loginField}>
+                E-mail
+                <input
+                  type="email"
+                  value={email}
+                  onChange={(e) => setEmail(e.target.value)}
+                  placeholder="your@email.com"
+                />
+              </label>
 
-            <div className={styles.loginSlot}>
-              <Button
-                usage="login"
-                text="Login"
-                onBtnClick={() => setIsLoginOpen((currentState) => !currentState)}
-              />
+              <label className={styles.loginField}>
+                Password
+                <input
+                  type="password"
+                  value={password}
+                  onChange={(e) => setPassword(e.target.value)}
+                  placeholder="********"
+                />
+              </label>
 
-              <form
-                className={`${styles.loginDropdown} ${isLoginOpen ? styles.loginDropdownOpen : ''}`}
-                onSubmit={handleLoginSubmit}
-                noValidate
-              >
-                <label className={styles.loginField}>
-                  E-mail
-                  <input
-                    type="email"
-                    value={email}
-                    onChange={(event) => setEmail(event.target.value)}
-                    placeholder="your@email.com"
-                  />
-                </label>
-
-                <label className={styles.loginField}>
-                  Password
-                  <input
-                    type="password"
-                    value={password}
-                    onChange={(event) => setPassword(event.target.value)}
-                    placeholder="********"
-                  />
-                </label>
-
-                <button type="submit" className={styles.signInButton}>
-                  Sign in
-                </button>
-              </form>
-            </div>
+              <button type="submit" className={styles.signInButton}>
+                Sign in
+              </button>
+            </form>
           </div>
-
-          <PostContent content="ai responseeee" />
+        </div>
+        <div className={styles.mainLayout}>
+          <SocialPostCard />
+          <div className={styles.responseSection}>
+            <PostContent content="ai response" />
+          </div>
         </div>
       </div>
     </div>
