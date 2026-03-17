@@ -99,6 +99,7 @@
     transition: transform 0.25s ease, box-shadow 0.25s ease, background-color 0.25s ease, border-color 0.25s ease;
     font-size: clamp(0.9rem, 1vw, 1rem);
     user-select: none;
+    font-size: clamp(0.8rem, 1vw, 1.2rem);
 }
 
 .login {
