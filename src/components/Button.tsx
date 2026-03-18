@@ -3,7 +3,7 @@
 import styles from '../scss/Button.module.scss';
 
 interface ButtonProps {
-    usage: 'generate' | 'post' | 'copy' | 'login' | 'register' | 'navbar';
+    usage: 'generate' | 'post' | 'copy' | 'login' | 'register' | 'navbar' | 'postaction';
     text: string;
     onBtnClick?: () => void;
 }
