@@ -10,6 +10,7 @@ import RegisterPage from './RegisterPage.tsx'
 import Navbar from './Navbar.tsx'
 import AboutPage from './AboutPage.tsx'
 import ContactPage from './ContactPage.tsx'
+import PostActionBar from './PostActionBar.tsx'
 
 function HomePage() {
   const navigate = useNavigate()
@@ -68,6 +69,7 @@ function HomePage() {
           <SocialPostCard />
           <div className={styles.responseSection}>
             <PostContent content="ai response" />
+            <PostActionBar />
           </div>
         </div>
       </div>
