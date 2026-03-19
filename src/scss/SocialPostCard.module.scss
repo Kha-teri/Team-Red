@@ -4,6 +4,7 @@
 .container {
     display: flex;
     flex-direction: column;
+    justify-content: space-around;
     position: relative;
     z-index: 10;
     background: linear-gradient(135deg, rgba(255, 255, 255, 0.1) 0%, rgba(255, 255, 255, 0.03) 100%); 
@@ -12,7 +13,7 @@
     border: 1px solid rgba(255, 255, 255, 0.2);
     border-top: 1px solid rgba(255, 255, 255, 0.4);
     width: clamp(300px, 40vw, 750px);
-    height: auto;
+    height: 60%;
     min-height: auto;
     gap: clamp(1.5rem, 5vh, 3rem);
     padding: clamp(1.5rem, 6vw, 2.5rem);

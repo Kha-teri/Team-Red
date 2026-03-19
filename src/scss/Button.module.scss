@@ -7,14 +7,14 @@
 }
 
 .generate {
-    height: clamp(3.5rem, 8vh, 4.5rem);
+    height: clamp(4rem, 6vh, 7rem);
     width: 80%;
     margin: 0 auto;
     color: $text-main;
     user-select: none;
     border-radius: $s2;
     font-family: $font-main;
-    font-size: clamp(1rem, 1.2vw, 1.2rem);
+    font-size: clamp(1.4rem, 1.6vw, 1.8rem);
     letter-spacing: 0.5px;
     cursor: pointer;
     border: 1px solid transparent;
@@ -45,10 +45,10 @@
     font-weight: 600;
     cursor: pointer;
     border-radius: $s2;
-    padding: clamp(0.8rem, 1.5vw, 1.4rem);
+    padding: clamp(1rem, 1.4vw, 1.6rem);
     transition: all 0.3s ease;
     color: $text-main;
-    font-size: clamp(0.9rem, 1vw, 1.1rem);
+    font-size: clamp(1.2rem, 1.4vw, 1.6rem);
     display: flex;
     justify-content: center;
     align-items: center;
@@ -93,13 +93,12 @@
     font-family: $font-main;
     font-weight: 600;
     border-radius: $s2;
-    height: clamp(2.8rem, 6vh, 3.4rem);
-    padding: 0 clamp(1rem, 2vw, 1.4rem);
+    height: clamp(3.2rem, 8vh, 4.2rem);
+    padding: 0 clamp(1.5rem, 3vw, 2.5rem);
     cursor: pointer;
     transition: transform 0.25s ease, box-shadow 0.25s ease, background-color 0.25s ease, border-color 0.25s ease;
-    font-size: clamp(0.9rem, 1vw, 1rem);
     user-select: none;
-    font-size: clamp(0.8rem, 1vw, 1.2rem);
+    font-size: clamp(1.1rem, 1.2vw, 1.4rem);
 }
 
 .login {
