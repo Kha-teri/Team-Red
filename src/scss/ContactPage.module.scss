@@ -1,0 +1,119 @@
+@use './colors.scss' as *;
+@use './fonts.scss' as *;
+
+.container {
+    position: relative;
+    width: 100%;
+    min-height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: clamp(1rem, 5vw, 3rem);
+    background-color: $bg-main;
+    overflow: hidden;
+
+    &::before, &::after {
+        content: '';
+        position: absolute;
+        width: clamp(200px, 40vw, 500px);
+        height: clamp(200px, 40vw, 500px);
+        border-radius: 50%;
+        filter: blur(120px);
+        z-index: 0;
+        opacity: 0.4;
+        pointer-events: none;
+    }
+
+    &::before {
+        top: -10%;
+        left: -10%;
+        background-color: $accent;
+    }
+
+    &::after {
+        bottom: -5%;
+        right: -5%;
+        background-color: $glow;
+    }
+
+    .card {
+        position: relative;
+        z-index: 1;
+        width: 100%;
+        max-width: 500px;
+        background: rgba(white, 0.03);
+        backdrop-filter: blur(25px);
+        border: 1px solid rgba(white, 0.1);
+        border-radius: $s3;
+        padding: clamp(2rem, 5vw, 4rem);
+        text-align: center;
+
+        header {
+            margin-bottom: 3rem;
+            
+            h1 {
+                font-size: clamp(2rem, 2.2vw, 2.8rem);
+                color: $text-main;
+                margin-bottom: $s1;
+
+                span {
+                    color: $glow;
+                }
+            }
+
+            p {
+                color: $text-secondary;
+                font-size: $s2;
+            }
+        }
+
+        .linksGrid {
+            display: flex;
+            flex-direction: column;
+            gap: $s2;
+            margin-bottom: 3rem;
+        }
+
+        .contactItem {
+            display: flex;
+            flex-direction: column;
+            align-items: flex-start;
+            padding: 1.2rem $s3;
+            background: rgba(white, 0.05);
+            border: 1px solid rgba(white, 0.1);
+            border-radius: $s3;
+            text-decoration: none;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+
+            .label {
+                font-size: 0.75rem;
+                text-transform: uppercase;
+                letter-spacing: 1px;
+                color: $accent;
+                margin-bottom: $s1;
+            }
+
+            .value {
+                font-size: $s1;
+                color: $text-main;
+                font-weight: 500;
+            }
+
+            &:hover {
+                background: rgba(white, 0.1);
+                border-color: rgba($glow, 0.4);
+                transform: translateY(-5px);
+                box-shadow: 0 10px 20px rgba(black, 0.2);
+                
+                .value { 
+                    color: $glow; 
+                }
+            }
+        }
+    }
+
+    .footer {
+        display: flex;
+        justify-content: center;
+    }
+}

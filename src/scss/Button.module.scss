@@ -89,3 +89,114 @@
     }
 }
 
+.login, .register {
+    font-family: $font-main;
+    font-weight: 600;
+    border-radius: $s2;
+    height: clamp(2.8rem, 6vh, 3.4rem);
+    padding: 0 clamp(1rem, 2vw, 1.4rem);
+    cursor: pointer;
+    transition: transform 0.25s ease, box-shadow 0.25s ease, background-color 0.25s ease, border-color 0.25s ease;
+    font-size: clamp(0.9rem, 1vw, 1rem);
+    user-select: none;
+    font-size: clamp(0.8rem, 1vw, 1.2rem);
+}
+
+.login {
+    color: $text-main;
+    border: 1px solid rgba(white, 0.28);
+    background: rgba(white, 0.04);
+
+    &:hover {
+        transform: translateY(-2px);
+        background: rgba(white, 0.14);
+        border-color: rgba(white, 0.5);
+    }
+}
+
+.register {
+    color: $text-main;
+    border: 2px solid transparent;
+    background:
+        linear-gradient(rgba($card, 0.9), rgba($card, 0.9)) padding-box,
+        linear-gradient(90deg, $accent, $glow, $accent) border-box;
+    background-size: 100% 100%, 200% 100%;
+    animation: flow 4s linear infinite;
+    box-shadow: 0 6px 14px rgba($glow, 0.2);
+
+    &:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 0 20px rgba($glow, 0.4);
+        animation-duration: 2s;
+    }
+}
+
+.login, .register {
+    &:active {
+        transform: translateY(0);
+        transition: 0.1s;
+    }
+}
+
+.navbar {
+    background: transparent;
+    border: none;
+    color: $text-secondary;
+    font-family: $font-main;
+    font-weight: 500;
+    font-size: clamp(1rem, 1.3vw, 1.8rem);
+    padding: 0.8rem 1.2rem;
+    width: 100%;
+    display: flex;
+    justify-content: flex-start;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    border-radius: $s1;
+
+    &:hover {
+        color: $text-main;
+        background-color: rgba(white, 0.05);
+        padding-left: 1.6rem;
+        box-shadow: inset 4px 0 0 rgba($glow, 0.4);
+    }
+}
+
+.postaction {
+    color: $text-secondary;
+    font-family: $font-secondary;
+    font-size: clamp(0.6rem, 0.8vw, 1rem);
+    background: rgba(white, 0.05);
+    outline: none;
+    border: none;
+    padding: 0.6rem 1.2rem 0.6rem 2.5rem;
+    cursor: pointer;
+    position: relative;
+    transition: all 0.3s ease;
+
+    &::before {
+        content: '';
+        background-image: url('/public/img/regenerate.svg');
+        background-size: contain;
+        background-repeat: no-repeat;
+        opacity: 0.5;
+        transition: transform 0.5s ease;
+        position: absolute;
+        left: 0.5rem;
+        top: 50%;
+        transform: translateY(-50%);
+        width: 1.2rem;
+        height: 1.2rem;
+        aspect-ratio: 1/1;
+    }
+
+    &:hover {
+        color: $text-main;
+        background: rgba(white, 0.1);
+        border-color: rgba($glow, 0.4);
+
+        &::before {
+            transform: translateY(-50%) rotate(180deg);
+            opacity: 1;
+        }
+    }
+}
