@@ -37,8 +37,7 @@
         width: 100%;
         max-width: 1400px;
         min-height: 100%; 
-        height: auto; 
-
+        height: auto;
         display: flex;
         flex-direction: column;
         gap: 1.5rem; 
@@ -49,11 +48,11 @@
         display: flex;
         justify-content: flex-end;
         align-items: flex-start;
-        gap: 1rem;
-        flex-wrap: nowrap;
+        gap: 1.5rem;
+        flex-wrap: wrap;
 
         > button, .loginSlot {
-            flex: 0 1 clamp(130px, 15vw, 190px);
+            flex: 0 1 clamp(160px, 20vw, 240px);
             min-width: 0;
         }
 
@@ -89,6 +88,57 @@
             transform: translateY(0) scale(1);
             pointer-events: auto;
         }
+
+        .loginField {
+        display: flex;
+        flex-direction: column;
+        gap: 0.5rem;
+        font-family: $font-main;
+        font-size: 0.9rem;
+        color: $text-secondary;
+
+        input {
+            width: 100%;
+            height: 3.2rem;
+            border-radius: 0.8rem;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            background: rgba(255, 255, 255, 0.05);
+            color: $text-main;
+            padding: 0 1rem;
+            outline: none;
+            transition: border-color 0.2s;
+
+            &:focus {
+                border-color: $glow;
+            }
+
+            &::placeholder {
+                color: rgba($text-secondary, 0.3);
+            }
+        }
+    }
+
+    .signInButton {
+        margin-top: 0.5rem;
+        height: 3.2rem;
+        border-radius: 0.8rem;
+        border: 2px solid transparent;
+        // Magiczny gradient na obramowaniu
+        background: 
+            linear-gradient($card, $card) padding-box,
+            linear-gradient(90deg, $accent, $glow, $accent) border-box;
+        background-size: 100% 100%, 200% 100%;
+        animation: signInFlow 4s linear infinite;
+        color: white;
+        font-weight: 600;
+        cursor: pointer;
+        transition: box-shadow 0.3s ease;
+
+        &:hover {
+            animation-duration: 2s; // Przyspiesza animację przy hoverze
+            box-shadow: 0 0 15px rgba($glow, 0.3);
+        }
+    }
     }
 
     .mainLayout {
