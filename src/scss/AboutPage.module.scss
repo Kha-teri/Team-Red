@@ -52,7 +52,7 @@
 
     .subtitle {
         color: $text-secondary;
-        font-size: 1.2rem;
+        font-size: clamp(1.8rem, 2vw, 2.6rem);
         max-width: 600px;
         margin: 0 auto;
     }
@@ -81,13 +81,14 @@
     h3 {
         color: $glow;
         margin-bottom: 1rem;
-        font-size: 1.4rem;
+        font-size: clamp(1.4rem, 1.8vw, 2.2rem);
     }
 
     p {
         color: $text-secondary;
         line-height: 1.6;
         word-wrap: break-word;
+        font-size: clamp(1.2rem, 1.6vw, 2rem);
     }
 }
 

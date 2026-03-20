@@ -40,7 +40,8 @@
         position: relative;
         z-index: 1;
         width: 100%;
-        max-width: 500px;
+        max-width: 1000px;
+        height: clamp(200px, 40vh, 900px);
         background: rgba(white, 0.03);
         backdrop-filter: blur(25px);
         border: 1px solid rgba(white, 0.1);
@@ -52,7 +53,7 @@
             margin-bottom: 3rem;
             
             h1 {
-                font-size: clamp(2rem, 2.2vw, 2.8rem);
+                font-size: clamp(2.4rem, 4vw, 6rem);
                 color: $text-main;
                 margin-bottom: $s1;
 
@@ -63,7 +64,7 @@
 
             p {
                 color: $text-secondary;
-                font-size: $s2;
+                font-size: clamp(1.8rem, 2vw, 2.4rem);
             }
         }
 
@@ -86,7 +87,7 @@
             transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
 
             .label {
-                font-size: 0.75rem;
+                font-size: clamp(1.4rem, 1.8vw, 2rem);
                 text-transform: uppercase;
                 letter-spacing: 1px;
                 color: $accent;
@@ -94,7 +95,7 @@
             }
 
             .value {
-                font-size: $s1;
+                font-size: clamp(1.2rem, 1.6vw, 1.8rem);
                 color: $text-main;
                 font-weight: 500;
             }
