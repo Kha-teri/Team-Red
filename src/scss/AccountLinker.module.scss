@@ -1,0 +1,175 @@
+@use './colors.scss' as *;
+@use './fonts.scss' as *;
+
+.container {
+    position: relative;
+    width: 100%;
+    height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background: $bg-main;
+    padding: clamp(1rem, 2vw, 2rem);
+    overflow-y: auto;
+    overflow-x: hidden;
+    box-sizing: border-box;
+
+    &::before, &::after {
+        content: '';
+        position: fixed;
+        width: clamp(300px, 45vw, 600px);
+        height: clamp(300px, 45vw, 600px);
+        border-radius: 50%;
+        filter: blur(140px);
+        z-index: 0;
+        opacity: 0.35;
+        pointer-events: none;
+    }
+
+    &::before {
+        top: -15%;
+        left: -10%;
+        background-color: $accent;
+    }
+
+    &::after {
+        bottom: -10%;
+        right: -10%;
+        background-color: $glow;
+    }
+}
+
+.card {
+    position: relative;
+    z-index: 1;
+    width: clamp(500px, 50vw, 900px);
+    background: linear-gradient(135deg, rgba(white, 0.1) 0%, rgba(white, 0.03) 100%);
+    backdrop-filter: blur(35px) saturate(160%);
+    border: 1px solid rgba(white, 0.2);
+    border-top: 1px solid rgba(white, 0.4);
+    border-radius: 3rem;
+    padding: clamp(2rem, 5vw, 4rem);
+    display: flex;
+    flex-direction: column;
+    gap: 3rem;
+}
+
+.header {
+    text-align: center;
+
+    h1 {
+        font-family: $font-main;
+        font-size: clamp(2rem, 3vw, 3rem);
+        color: $text-main;
+        margin-bottom: $s1;
+    }
+
+    p {
+        font-family: $font-main;
+        color: $text-secondary;
+        font-size: clamp(1rem, 1.2vw, 1.4rem);
+    }
+}
+
+.accountsList {
+    display: flex;
+    flex-direction: column;
+    gap: $s3;
+}
+
+.accountItem {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 1.5rem 2rem;
+    background: rgba(white, 0.03);
+    border: 1px solid rgba(white, 0.08);
+    border-radius: $s3;
+    transition: all 0.3s ease;
+
+    &:hover {
+        background: rgba(white, 0.06);
+        border-color: rgba(white, 0.15);
+    }
+}
+
+.info {
+    display: flex;
+    align-items: center;
+    gap: $s3;
+}
+
+.iconWrapper {
+    height: 3.5rem;
+    width: 3.5rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: rgba(white, 0.05);
+    border-radius: $s2;
+
+    img {
+        width: 60%;
+        height: 60%;
+        aspect-ratio: 1/1;
+        object-fit: contain;
+    }
+}
+
+.text {
+    display: flex;
+    flex-direction: column;
+    
+    h3 {
+        font-size: clamp(1.6rem, 1.8vw, 2rem);
+        color: $text-main;
+        margin: 0;
+    }
+
+    span {
+        font-size: clamp(1.3rem, 1.5vw, 1.7rem);
+        color: $text-secondary;
+
+        .username {
+            color: $glow;
+            font-weight: bold;
+        }
+    }
+}
+
+.connectBtn, .disconnectBtn {
+    padding: 0.8rem 1.5rem;
+    border-radius: 0.8rem;
+    font-family: $font-main;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.2 ease;
+}
+
+.connectBtn {
+    background: transparent;
+    border: 1px solid $glow;
+    color: $glow;
+
+    &:hover {
+        background: $glow;
+        color: $card;
+    }
+}
+
+.disconnectBtn {
+    background: rgba(255, 50, 50, 0.1);
+    border: 1px solid rgba(255, 50, 50, 0.3);
+    color: #ff5555;
+
+    &:hover {
+        background: rgba(255, 50, 50, 0.2);
+        border-color: #ff5555;
+    }
+}
+
+.footer {
+    display: flex;
+    justify-content: center;
+    margin-top: 1rem;
+}
