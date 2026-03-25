@@ -11,6 +11,7 @@ import Navbar from './Navbar.tsx'
 import AboutPage from './AboutPage.tsx'
 import ContactPage from './ContactPage.tsx'
 import PostActionBar from './PostActionBar.tsx'
+import AccountLinker from './AccountLinker.tsx'
 
 function HomePage() {
   const navigate = useNavigate()
@@ -84,6 +85,7 @@ function App() {
       <Route path="/register" element={<RegisterPage />} />
       <Route path="/about" element={<AboutPage />} />
       <Route path="/contact" element={<ContactPage />} />
+      <Route path="/linker" element={<AccountLinker />} />
     </Routes>
   )
 }

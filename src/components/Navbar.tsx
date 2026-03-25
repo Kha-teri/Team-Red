@@ -35,6 +35,7 @@ function Navbar() {
                     <nav className={styles.navLinks}>
                         <Button usage="navbar" text="About" onBtnClick={() => navigate('/about')} />
                         <Button usage="navbar" text="Contact" onBtnClick={() => navigate('/contact')} />
+                        <Button usage="navbar" text="Link accounts" onBtnClick={() => navigate('/linker')} />
                     </nav>
                 </div>
             </div>
