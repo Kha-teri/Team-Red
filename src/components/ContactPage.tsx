@@ -6,7 +6,7 @@ function ContactPage() {
     const navigate = useNavigate();
 
     const contactMethods = [
-        { label: 'Github', value: 'github.com/Kha-Teri/Team-Red', link: 'https://github.com'}
+        { label: 'Github', value: 'https://github.com/Kha-Teri/Team-Red', link: 'https://github.com'}
     ];
 
     return (
@@ -19,9 +19,9 @@ function ContactPage() {
 
                 <div className={styles.linksGrid}>
                     {contactMethods.map((el, index) => (
-                      <a key={index} href={el.link} target="_blank" className={styles.contactItem}>
+                      <a key={index} href={el.value} target="_blank" className={styles.contactItem}>
                         <span className={styles.label}>{el.label}</span>
-                        <span className={styles.value}>{el.value}</span>
+                        <span className={styles.value}>{el.link}</span>
                       </a>  
                     ))}
                 </div>
