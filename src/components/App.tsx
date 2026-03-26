@@ -1,7 +1,5 @@
 //glowny komponent, layout
-import { useState, useEffect } from 'react'
-import type { FormEvent } from 'react'
-import { Route, Routes, useNavigate, Navigate } from 'react-router-dom'
+import { Route, Routes, Navigate, useNavigate } from 'react-router-dom'
 import type { ReactNode } from 'react'
 import styles from '../scss/App.module.scss'
 import Button from './Button'
@@ -23,19 +21,10 @@ function ProtectedRoute({children} : { children: ReactNode}) {
 }
 
 function HomePage() {
-  const navigate = useNavigate()
-  const [isLoginOpen, setIsLoginOpen] = useState(false)
-  const [email, setEmail] = useState('')
-  const [password, setPassword] = useState('')
-  const {login, isAuthenticated, logout} = useAuth();
-  const [error, setError] = useState(false);
+  const {isAuthenticated, logout, loading } = useAuth();
+  const navigate = useNavigate();
 
-  const handleLoginSubmit = async (event: FormEvent<HTMLFormElement>) => {
-    event.preventDefault();
-    setError(false);
-    const success = await login(email, password);
-    success ? setIsLoginOpen(false) : setError(true);
-  }
+  if(loading) return null;
 
   /*
   const [weather, setWeather] = useState<any>(null);
@@ -58,29 +47,33 @@ function HomePage() {
 
   return (
     <div className={styles.container}>
-      <Navbar />
+      {isAuthenticated ? <Navbar /> : <></>}
       
       <div className={styles.wrapper}>
-        <div className={styles.authButtons}>
-          {isAuthenticated ? (
-            <Button usage="login" text="logout" onBtnClick={logout} />
-          ) : 
-          (
-            <>
-              <Button usage="register" text="Register" onBtnClick={() => navigate("/register")} />
-              <Button usage="login" text="Login" onBtnClick={() => navigate('/login')} />
-            </>
-          )}
-        </div>
-          
-        <div className={styles.mainLayout}>
-          <SocialPostCard />
-          <div className={styles.responseSection}>
-            {/*<PostContent content={error ? error : weather ? `Pogoda: ${weather.summary}, Temp: ${weather.temperatureC}` : 'Ladowanie danych...'} />*/}
-            <PostContent content="ai response" />
-            <PostActionBar />
+        {!isAuthenticated ? (
+          <div className={styles.landingPage}>
+            <h1>Create social posts with AI</h1>
+            <div className={styles.landingButtons}>
+              <Button usage="register" text="Get Started" onBtnClick={() => navigate("/register")} />
+              <Button usage="login" text="Sign In" onBtnClick={() => navigate("/login")} />
+            </div>
           </div>
-        </div>
+        ) : (
+          <>
+            <div className={styles.authButtons}>
+              <Button usage="logout" text="Log-out" onBtnClick={logout} />
+            </div>
+              
+            <div className={styles.mainLayout}>
+              <SocialPostCard />
+              <div className={styles.responseSection}>
+                {/*<PostContent content={error ? error : weather ? `Pogoda: ${weather.summary}, Temp: ${weather.temperatureC}` : 'Ladowanie danych...'} />*/}
+                <PostContent content="ai response" />
+                <PostActionBar />
+              </div>
+            </div>
+          </>
+        )}
       </div>
     </div>
   )

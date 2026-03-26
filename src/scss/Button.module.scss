@@ -199,3 +199,23 @@
         }
     }
 }
+
+.logout {
+    font-family: $font-main;
+    font-weight: 600;
+    border-radius: $s2;
+    height: clamp(3.2rem, 8vh, 4.2rem);
+    padding: 0 clamp(1.5rem, 3vw, 2.5rem);
+    cursor: pointer;
+    transition: transform 0.25s ease, box-shadow 0.25s ease, background-color 0.25s ease, border-color 0.25s ease;
+    user-select: none;
+    font-size: clamp(1.1rem, 1.2vw, 1.4rem);
+    background: rgba(255, 50, 50, 0.1);
+    border: 1px solid rgba(255, 50, 50, 0.3);
+    color: #ff5555;
+
+    &:hover {
+        background: rgba(255, 50, 50, 0.2);
+        border-color: #ff5555;
+    }
+}
