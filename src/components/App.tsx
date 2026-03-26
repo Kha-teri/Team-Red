@@ -8,6 +8,7 @@ import Button from './Button'
 import SocialPostCard from './SocialPostCard.tsx'
 import PostContent from './PostContent.tsx'
 import RegisterPage from './RegisterPage.tsx'
+import LoginPage from './LoginPage.tsx'
 import Navbar from './Navbar.tsx'
 import AboutPage from './AboutPage.tsx'
 import ContactPage from './ContactPage.tsx'
@@ -67,43 +68,11 @@ function HomePage() {
           (
             <>
               <Button usage="register" text="Register" onBtnClick={() => navigate("/register")} />
-
-              <div className={styles.loginSlot}>
-                <Button usage="login" text="Login" onBtnClick={() => setIsLoginOpen((prev) => !prev)} />
-                
-                <form 
-                  className={`${styles.loginDropdown} ${isLoginOpen ? styles.loginDropdownOpen : ''}`}
-                  onSubmit={handleLoginSubmit}
-                  noValidate
-                >
-                  <label className={styles.loginField}>
-                    E-mail
-                    <input
-                      type="email"
-                      value={email}
-                      onChange={(e) => setEmail(e.target.value)}
-                      placeholder="your@email.com"
-                    />
-                  </label>
-
-                  <label className={styles.loginField}>
-                    Password
-                    <input
-                      type="password"
-                      value={password}
-                      onChange={(e) => setPassword(e.target.value)}
-                      placeholder="********"
-                    />
-                  </label>
-
-                  <button type="submit" className={styles.signInButton}>
-                    Sign in
-                  </button>
-                </form>
-              </div>
+              <Button usage="login" text="Login" onBtnClick={() => navigate('/login')} />
             </>
           )}
         </div>
+          
         <div className={styles.mainLayout}>
           <SocialPostCard />
           <div className={styles.responseSection}>
@@ -123,9 +92,9 @@ function App() {
       <Routes>
         <Route path="/" element={<HomePage />} />
         <Route path="/register" element={<RegisterPage />} />
+        <Route path="/login" element={<LoginPage />} />
         <Route path="/about" element={<AboutPage />} />
         <Route path="/contact" element={<ContactPage />} />
-
         <Route path="/linker" element={<ProtectedRoute><AccountLinker /></ProtectedRoute>} />
       </Routes>
     </AuthProvider>
