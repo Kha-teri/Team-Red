@@ -23,12 +23,12 @@ export function AuthProvider({ children } : {children: ReactNode}) {
         setLoading(false);
     }, []);
 
-    const login = async (userName: string, password: string) => {
+    const login = async (email: string, password: string) => {
         try {
             const response = await fetch(`${api_url}/Login/login`, {
                 method: `POST`,
                 headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify({ userName, password }),
+                body: JSON.stringify({ UserName: email, password }),
                 credentials: 'include'
             });
 
