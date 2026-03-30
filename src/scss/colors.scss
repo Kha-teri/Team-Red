@@ -1,8 +1,30 @@
-$bg-main: #0B0E14;
-$card: #161B22;
-$accent: #2F80ED;
-$glow: #00D2FF;
-$text-main: #F0F6FC;
-$text-secondary: #8B949E;
+:root {
+    --bg-main: #0B0E14;
+    --card: #161B22;
+    --accent: #2F80ED;
+    --glow: #00D2FF;
+    --text-main: #F0F6FC;
+    --text-secondary: #8B949E;
+    --border: #ffffff;
+    --card-rgb: 20, 20, 25;
+}
 
-$blue-gradient: linear-gradient(135deg, $accent 0%, $glow 100%);
+[data-theme='light'] {
+  --bg-main: #cbd5e1;
+  --card: #e2e8f0;
+  --text-main: #0f172a;
+  --text-secondary: #334155;
+  --glow: #1d4ed8;
+  --accent: #3730a3;
+  --border: #fff;
+  --card-rgb: 203, 213, 225;
+}
+
+$bg-main: var(--bg-main);
+$card: var(--card);
+$text-main: var(--text-main);
+$text-secondary: var(--text-secondary);
+$glow: var(--glow);
+$accent: var(--accent);
+$border: var(--border);
+$card-rgb: var(--card-rgb);

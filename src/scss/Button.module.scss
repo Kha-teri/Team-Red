@@ -20,7 +20,7 @@
     border: 1px solid transparent;
     position: relative;
     outline: none;
-    background: linear-gradient(rgba($card, 0.9), rgba($card, 0.9)) padding-box, linear-gradient(135deg, $accent, $glow, $accent) border-box;
+    background: linear-gradient(rgba($card-rgb, 0.9), rgba($card-rgb, 0.9)) padding-box, linear-gradient(135deg, $accent, $glow, $accent) border-box;
     background-size: 100% 100%, 200% 200%;
     background-position: 0% 0% 0% 0%;
     transition: transform 0.3s ease, box-shadow 0.3s ease, background-position 0.6s ease;
@@ -70,7 +70,7 @@
 .post {
     border: 2px solid transparent;
     background: 
-        linear-gradient(rgba($card, 0.9), rgba($card, 0.9)) padding-box, 
+        linear-gradient(rgba($card-rgb, 0.9), rgba($card-rgb, 0.9)) padding-box, 
         linear-gradient(90deg, $accent, $glow, $accent) border-box;
     background-size: 100% 100%, 200% 100%;
     animation: flow 4s linear infinite;
@@ -117,7 +117,7 @@
     color: $text-main;
     border: 2px solid transparent;
     background:
-        linear-gradient(rgba($card, 0.9), rgba($card, 0.9)) padding-box,
+        linear-gradient(rgba($card-rgb, 0.9), rgba($card-rgb, 0.9)) padding-box,
         linear-gradient(90deg, $accent, $glow, $accent) border-box;
     background-size: 100% 100%, 200% 100%;
     animation: flow 4s linear infinite;
