@@ -7,11 +7,11 @@ import Button from './Button'
 function LoginPage() {
   const navigate = useNavigate()
   const { login } = useAuth()
-  const [formData, setFormData] = useState({ email: '', password: '' })
+  const [formData, setFormData] = useState({ username: '', password: '' })
 
   const handleLogin = async (e: React.FormEvent) => {
     e.preventDefault()
-    const success = await login(formData.email, formData.password)
+    const success = await login(formData.username, formData.password)
     success ? navigate('/') : alert('błąd logowania')
   }
 
@@ -21,8 +21,8 @@ function LoginPage() {
         <h1>Login</h1>
 
         <form className={styles.form} onSubmit={handleLogin}>
-          <label htmlFor="email">Email</label>
-          <input id="email" type="email" placeholder="john@example.com" onChange={e => setFormData({ ...formData, email: e.target.value })} required />
+          <label htmlFor="username">Username</label>
+          <input id="username" type="text" placeholder="Enter your username" onChange={e => setFormData({ ...formData, username: e.target.value })} required />
 
           <label htmlFor="password">Password</label>
           <input id="password" type="password" placeholder="Enter your password" onChange={e => setFormData({ ...formData, password: e.target.value })} required />
