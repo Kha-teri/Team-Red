@@ -13,6 +13,7 @@
         min-height: clamp(7rem, 25vh, 15rem);
         background: rgba(0, 0, 0, 0.2);
         border-radius: $s3;
+        border: 1px solid rgba(white, 0.3);
         color: $text-main;
         font-family: $font-secondary;
         font-size: clamp($s2, 1.25vw, $s3);
@@ -31,9 +32,10 @@
         }
 
         &:focus {
-            border-color: rgba($glow, 0.5);
+            border: 1px solid rgba(#{$glow-rgb}, 0.5); 
             background: rgba(0, 0, 0, 0.3);
-            box-shadow: 0 0 10px rgba($accent, 0.7);
+            box-shadow: 0 0 10px rgba(#{$accent-rgb}, 0.7);
+            outline: none;
         }
 
         &::-webkit-scrollbar {

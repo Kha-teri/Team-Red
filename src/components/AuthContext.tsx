@@ -10,7 +10,7 @@ interface AuthContextType {
 }
 
 const AuthContext = createContext<AuthContextType | undefined>(undefined);
-const api_url = 'http://localhost:5000/api';
+const api_url = 'https://team-red-api.azurewebsites.net/api';
 
 export function AuthProvider({ children } : {children: ReactNode}) {
     const [isAuthenticated, setIsAuthenticated] = useState<boolean>(false);
@@ -23,12 +23,12 @@ export function AuthProvider({ children } : {children: ReactNode}) {
         setLoading(false);
     }, []);
 
-    const login = async (email: string, password: string) => {
+    const login = async (username: string, password: string) => {
         try {
             const response = await fetch(`${api_url}/Login/login`, {
                 method: `POST`,
                 headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify({ UserName: email, password }),
+                body: JSON.stringify({ userName: username, password }),
                 credentials: 'include'
             });
 
@@ -37,8 +37,14 @@ export function AuthProvider({ children } : {children: ReactNode}) {
                 setIsAuthenticated(true);
                 return true;
             }
+
+            console.error("Login failed with status:", response.status);
             return false;
-        } catch { return false; }
+
+        } catch(error) { 
+            console.error("Network error: ", error);
+            return false; 
+        }
     }
 
     const register = async (fullName: string, email: string, password: string) => {
