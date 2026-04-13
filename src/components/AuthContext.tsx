@@ -17,10 +17,31 @@ export function AuthProvider({ children } : {children: ReactNode}) {
     const [loading, setLoading] = useState<boolean>(true);
 
     useEffect(() => {
-        const loggedIn = localStorage.getItem('isLoggedIn');
-        if(loggedIn === 'true')
-            setIsAuthenticated(true);
-        setLoading(false);
+        const verifySession = async () => {
+            try {
+                const response = await fetch(`${api_url}/Account/me`, {
+                    method: 'GET',
+                    credentials: 'include'
+                });
+
+                if(response.ok) {
+                    setIsAuthenticated(true);
+                    localStorage.setItem("isLoggedIn", 'true');
+                }
+                else {
+                    setIsAuthenticated(false);
+                    localStorage.removeItem('isLoggedIn');
+                }
+            }
+            catch(err) {
+                console.error("Authentication check failed ", err);
+                setIsAuthenticated(false);
+            }
+            finally {
+                setLoading(false);
+            }
+        };
+        verifySession();
     }, []);
 
     const login = async (username: string, password: string) => {
