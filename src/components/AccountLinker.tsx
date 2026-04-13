@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import styles from '../scss/AccountLinker.module.scss'
 import { useNavigate } from 'react-router-dom';
 import Button from './Button';
@@ -11,15 +11,88 @@ interface AccountLinkerProps {
     username?: string;
 }
 
+interface Platform {
+    id: number;
+    type: string;
+}
+
+interface UserPlatform {
+    id: number;
+    accountUsername: string;
+    platform: Platform;
+}
+
 function AccountLinker() {
     const navigate = useNavigate();
+    const api_url = "https://team-red-api.azurewebsites.net/api";
 
-    const [accounts, setAccounts] = useState<AccountLinkerProps[]>([
-        {id: 'linkedin', name: 'LinkedIn', icon: '/img/linkedin_icon.svg', isConnected: true, username: 'Test_user'},
-        {id: 'facebook', name: 'Facebook', icon: '/img/facebook_icon.svg', isConnected: false},
-        {id: 'instagram', name: 'Instagram', icon: '/img/instagram_icon.svg', isConnected: false}
-    ]);
+    const [allPlatforms, setAllPlatforms] = useState<Platform[]>([]);
+    const [userConnections, setUserConnections] = useState<UserPlatform[]>([]);
+    const [loading, setLoading] = useState(true);
 
+    const loadData = async() => {
+        try {
+            const [platRes, userRes] = await Promise.all([
+                fetch(`${api_url}/Platform/platforms`),
+                fetch(`${api_url}/UserPlatform/user-platforms`, { credentials: 'include'})
+            ]);
+
+            if(platRes.ok && userRes.ok) {
+                setAllPlatforms(await platRes.json());
+                setUserConnections(await userRes.json());
+            }
+        }
+        catch(err) {
+            console.error("Blad polaczenia: ", err);
+        }
+        finally {
+            setLoading(false);
+        }
+    };
+
+    useEffect(() => {loadData();}, []);
+
+    const handleConnect = async (platformId: number) => {
+        const requestBody = {
+            platformId: platformId,
+            accessToken: "test_token",
+            externalAccountId: "ext_123",
+            accountUsername: "NewUser",
+            accountComment: "Connected via Linker"
+        };
+
+        try {
+            const res = await fetch(`${api_url}/UserPlatform/add`, {
+                method: 'POST',
+                headers: {'Content-Type': 'application/json'},
+                body: JSON.stringify(requestBody),
+                credentials: 'include'
+            });
+
+            if(res.ok) 
+                loadData();
+        }
+        catch(err) {
+            console.error("Blad dodawania: ", err);
+        }
+    }
+
+    const handleDisconnect = async (userPlatformId: number) => {
+        try {
+            const res = await fetch(`${api_url}/UserPlatform/${userPlatformId}`, {
+                method: 'DELETE',
+                credentials: 'include'
+            });
+            
+            if(res.ok)
+                loadData();
+        }
+        catch(err) {
+            console.error("Blad usuwania: ", err);
+        }
+    }
+
+    /*
     const toggleConnection = (id: string) => {
         setAccounts(prev => prev.map(acc => {
             if(acc.id === id) {
@@ -29,6 +102,10 @@ function AccountLinker() {
             return acc;
         }));
     }
+    */
+
+    if(loading)
+        return <div className={styles.container}>Loading...</div>;
 
     return (
         <div className={styles.container}>
@@ -39,28 +116,33 @@ function AccountLinker() {
                 </header>
 
                 <div className={styles.accountsList}>
-                    {accounts.map(el => (
-                        <div key={el.id} className={`${styles.accountItem} ${el.isConnected ? styles.connected : ''}`}>
-                            <div className={styles.info}>
-                                <div className={styles.iconWrapper}>
-                                    <img src={el.icon} alt={el.name} />
+                    {allPlatforms.map(platform => {
+                        const connection = userConnections.find(c => c.platform.id === platform.id);
+                        const isConnected = !!connection;
+                        
+                        return (
+                            <div key={platform.id} className={`${styles.accountItem} ${isConnected ? styles.connected : ''}`}>
+                                <div className={styles.info}>
+                                    <div className={styles.iconWrapper}>
+                                        <img src={`/img/${platform.type.toLowerCase()}_icon.svg`} alt={platform.type} />
+                                    </div>
+                                    <div className={styles.text}>
+                                        <h3>{platform.type}</h3>
+                                        <span>{isConnected ? (
+                                            <>Connected as <span className={styles.username}>{connection.accountUsername}</span></>
+                                            ) : (
+                                                'Not connected'
+                                            )}
+                                        </span>
+                                    </div>
                                 </div>
-                                <div className={styles.text}>
-                                    <h3>{el.name}</h3>
-                                    <span>{el.isConnected ? (
-                                        <>Connected as <span className={styles.username}>{el.username}</span></>
-                                        ) : (
-                                            'Not connected'
-                                        )}
-                                    </span>
-                                </div>
-                            </div>
 
-                            <button className={el.isConnected ? styles.disconnectBtn : styles.connectBtn} onClick={() => toggleConnection(el.id)}>
-                                {el.isConnected ? 'Disconnect' : 'Connect account'}
-                            </button>
-                        </div>
-                    ))}
+                                <button className={isConnected ? styles.disconnectBtn : styles.connectBtn} onClick={() => isConnected ? handleDisconnect(connection.id) : handleConnect(platform.id)}>
+                                    {isConnected ? 'Disconnect' : 'Connect account'}
+                                </button>
+                            </div>
+                        );
+                    })}
                 </div>
 
                 <footer className="footer">
