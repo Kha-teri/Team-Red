@@ -40,10 +40,6 @@ function AccountPage() {
         fetchUserData();
     }, []);
 
-    useEffect(() => {
-        document.documentElement.setAttribute('data-theme', themeMode);
-    }, []);
-
     const handleThemeChange = () => {
         const nextTheme = themeMode === "dark" ? 'light' : 'dark';
         setThemeMode(nextTheme);
@@ -95,7 +91,7 @@ function AccountPage() {
                             <div className={styles.settingsInfo}>
                                 <span className={styles.settingName}>Interface Theme</span>
                                 <p className={styles.settingsDesc}>
-                                    {themeMode ? 'Dark mode is currently active' : 'Light mode is currently active'}
+                                    {themeMode === "dark" ? 'Dark mode is currently active' : 'Light mode is currently active'}
                                 </p>
                             </div>
 
