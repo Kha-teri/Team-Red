@@ -1,6 +1,7 @@
 //glowny komponent, layout
 import { Route, Routes, Navigate, useNavigate } from 'react-router-dom'
 import type { ReactNode } from 'react'
+import { useEffect } from 'react'
 import styles from '../scss/App.module.scss'
 import Button from './Button'
 import SocialPostCard from './SocialPostCard.tsx'
@@ -81,6 +82,11 @@ function HomePage() {
 }
 
 function App() {
+  useEffect(() => {
+    const savedTheme = localStorage.getItem("theme") || "dark";
+    document.documentElement.setAttribute('data-theme', savedTheme);
+  }, []);
+
   return (
     <AuthProvider>
       <Routes>
