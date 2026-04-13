@@ -17,19 +17,27 @@
     font-size: clamp(1.4rem, 1.6vw, 1.8rem);
     letter-spacing: 0.5px;
     cursor: pointer;
-    border: 1px solid transparent;
     position: relative;
     outline: none;
-    background: linear-gradient(rgba($card, 0.9), rgba($card, 0.9)) padding-box, linear-gradient(135deg, $accent, $glow, $accent) border-box;
+    border: 2px solid rgba(0, 0, 0, 0.01); 
+    background-origin: border-box;
+    background-clip: padding-box, border-box;
+    background-image: 
+        linear-gradient(rgba(#{$card-rgb}, 0.9), rgba(#{$card-rgb}, 0.9)), 
+        linear-gradient(135deg, $accent, $glow, $accent);
     background-size: 100% 100%, 200% 200%;
-    background-position: 0% 0% 0% 0%;
-    transition: transform 0.3s ease, box-shadow 0.3s ease, background-position 0.6s ease;
+    background-position: 0% 0%, 0% 0%;
+    transition: 
+        transform 0.3s ease, 
+        box-shadow 0.3s ease, 
+        background-position 0.6s ease,
+        color 0.3s ease;
     box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
 
     &:hover {
         transform: translateY(-2px);
         background-position: 0% 0%, 100% 100%;
-        box-shadow: 0 8px 20px rgba($accent, 0.2);
+        box-shadow: 0 8px 25px rgba(#{$glow-rgb}, 0.4);
         color: #fff;
         text-shadow: 0 0 8px rgba(255, 255, 255, 0.3);
     }
@@ -70,7 +78,7 @@
 .post {
     border: 2px solid transparent;
     background: 
-        linear-gradient(rgba($card, 0.9), rgba($card, 0.9)) padding-box, 
+        linear-gradient(rgba($card-rgb, 0.9), rgba($card-rgb, 0.9)) padding-box, 
         linear-gradient(90deg, $accent, $glow, $accent) border-box;
     background-size: 100% 100%, 200% 100%;
     animation: flow 4s linear infinite;
@@ -117,7 +125,7 @@
     color: $text-main;
     border: 2px solid transparent;
     background:
-        linear-gradient(rgba($card, 0.9), rgba($card, 0.9)) padding-box,
+        linear-gradient(rgba($card-rgb, 0.9), rgba($card-rgb, 0.9)) padding-box,
         linear-gradient(90deg, $accent, $glow, $accent) border-box;
     background-size: 100% 100%, 200% 100%;
     animation: flow 4s linear infinite;
@@ -197,5 +205,25 @@
             transform: translateY(-50%) rotate(180deg);
             opacity: 1;
         }
+    }
+}
+
+.logout {
+    font-family: $font-main;
+    font-weight: 600;
+    border-radius: $s2;
+    height: clamp(3.2rem, 8vh, 4.2rem);
+    padding: 0 clamp(1.5rem, 3vw, 2.5rem);
+    cursor: pointer;
+    transition: transform 0.25s ease, box-shadow 0.25s ease, background-color 0.25s ease, border-color 0.25s ease;
+    user-select: none;
+    font-size: clamp(1.1rem, 1.2vw, 1.4rem);
+    background: rgba(255, 50, 50, 0.1);
+    border: 1px solid rgba(255, 50, 50, 0.3);
+    color: #ff5555;
+
+    &:hover {
+        background: rgba(255, 50, 50, 0.2);
+        border-color: #ff5555;
     }
 }

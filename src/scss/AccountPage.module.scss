@@ -1,0 +1,155 @@
+@use './colors.scss' as *;
+@use './fonts.scss' as *;
+
+.container {
+    width: 100%;
+    height: 100%;
+
+    &::before, &::after {
+        content: '';
+        position: fixed;
+        width: clamp(300px, 45vw, 600px);
+        height: clamp(300px, 45vw, 600px);
+        border-radius: 50%;
+        filter: blur(140px);
+        z-index: 0;
+        opacity: 0.35;
+        pointer-events: none;
+    }
+    
+    &::before { top: -15%; left: -10%; background-color: $accent; }
+    &::after { bottom: -10%; right: -10%; background-color: $glow; }
+}
+
+.accountLayout {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 100%;
+    padding-top: 4rem;
+}
+
+.accountTitle {
+    font-size: clamp(3.5rem, 8vw, 5rem);
+    color: white;
+    font-family: $font-secondary;
+    margin-bottom: 4rem;
+    text-align: center;
+    background: linear-gradient(to bottom, #fff, rgba(255,255,255,0.4));
+    -webkit-background-clip: text; //safari
+    -webkit-text-fill-color: transparent;
+}
+
+.profileCard {
+    width: 100%;
+    max-width: 900px;
+    background: rgba(255, 255, 255, 0.03);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    backdrop-filter: blur(30px);
+    border-radius: 3rem;
+    padding: clamp(2.5rem, 6vw, 6rem);
+    display: flex;
+    flex-direction: column;
+    gap: 4rem;
+    box-shadow: 0 40px 100px rgba(0, 0, 0, 0.5);
+}
+
+.infoGrid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 3rem;
+
+    .infoBox {
+        .label {
+            color: $text-secondary;
+            font-size: 1.1rem;
+            text-transform: uppercase;
+            letter-spacing: 3px;
+            display: block;
+            margin-bottom: 1rem;
+        }
+        .value {
+            color: white;
+            font-size: clamp(1.8rem, 2.5vw, 2.5rem);
+            font-weight: 700;
+        }
+    }
+}
+
+.statsGrid {
+    display: flex;
+    gap: 6rem;
+
+    .statBox {
+        .label {
+            color: $text-secondary;
+            font-size: 1.2rem;
+            display: block;
+            margin-bottom: 1rem;
+        }
+        .bigNumber {
+            font-size: clamp(5rem, 10vw, 7rem);
+            color: $glow;
+            line-height: 1;
+            text-shadow: 0 0 30px rgba($glow, 0.6);
+        }
+    }
+}
+
+.divider {
+    border: none;
+    border-top: 1px solid rgba(255, 255, 255, 0.08);
+    width: 100%;
+}
+
+.settingsRow {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+
+    .settingsInfo {
+        .settingName {
+            color: white;
+            font-size: 1.8rem;
+            font-weight: 600;
+            display: block;
+        }
+        .settingsDesc {
+            color: $text-secondary;
+            font-size: 1.1rem;
+            margin-top: 0.5rem;
+        }
+    }
+}
+
+.switchTrack {
+    width: 100px;
+    height: 54px;
+    background: rgba(255, 255, 255, 0.08);
+    border-radius: 100px;
+    padding: 8px;
+    cursor: pointer;
+    transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+    position: relative;
+    border: 1px solid rgba(255, 255, 255, 0.1);
+
+    &.switchOn {
+        background: rgba($glow, 0.15);
+        border-color: rgba($glow, 0.4);
+    }
+}
+
+.switchThumb {
+    width: 36px;
+    height: 36px;
+    background: white;
+    border-radius: 50%;
+    transition: transform 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
+    box-shadow: 0 4px 20px rgba(0,0,0,0.6);
+}
+
+.switchOn .switchThumb {
+    transform: translateX(46px);
+    background: $glow;
+    box-shadow: 0 0 25px $glow;
+}

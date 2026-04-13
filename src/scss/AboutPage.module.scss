@@ -75,7 +75,7 @@
 
     &:hover {
         transform: translateY(-10px);
-        border-color: rgba($glow, 0.4);
+        border-color: rgba($glow-rgb, 0.4);
     }
 
     h3 {
