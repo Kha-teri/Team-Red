@@ -3,13 +3,13 @@ import styles from '../scss/AccountLinker.module.scss'
 import { useNavigate } from 'react-router-dom';
 import Button from './Button';
 
-interface AccountLinkerProps {
+/* interface AccountLinkerProps {
     id: string;
     name: string;
     icon: string;
     isConnected: boolean;
     username?: string;
-}
+} */
 
 interface Platform {
     id: number;
