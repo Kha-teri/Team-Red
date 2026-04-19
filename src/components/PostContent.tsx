@@ -27,7 +27,7 @@ function PostContent ( {content, onCopy, onPost } : PostContentProps) {
         <div className={styles.container}>
             <div className={styles.scrollArea}>
                 <div className={styles.content}>
-                    <p>{content}</p>
+                    <textarea>{content}</textarea>
                 </div>
             </div>
 

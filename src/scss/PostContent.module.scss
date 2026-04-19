@@ -19,27 +19,41 @@
     overflow: hidden;
 
     .scrollArea {
-        flex: 1;
-        overflow-y: auto;
+        flex: 1; 
+        display: flex;         // Dodajemy flexa tutaj
+        flex-direction: column; // Kierunek pionowy
+        overflow-y: hidden;     // Ukrywamy scroll tutaj, bo textarea ma własny
         margin-bottom: $s2;
-        padding-right: $s1;
-
-        &::-webkit-scrollbar {
-            width: 4px;
-        }
-
-        &::-webkit-scrollbar-thumb {
-            background: rgba(white, 0.2);
-            border-radius: $s2;
-        }
-
+        
         .content {
-            p {
+            flex: 1;           // Rozciągamy content na całą wysokość scrollArea
+            display: flex;      // Content też musi być flexem dla textarea
+
+            textarea {
+                flex: 1;       // TEXTAREA zajmuje teraz 100% wysokości contentu
+                width: 100%;
                 font-family: $font-main;
                 line-height: 1.5;
                 font-size: clamp(1.2rem, 1.4vw, 1.8rem);
                 white-space: pre-wrap;
                 word-wrap: break-word;
+                resize: none;
+                
+                // --- STYLE WIZUALNE (żeby nie wyglądało jak na Twoim screenie) ---
+                background: transparent; // Przezroczyste tło
+                border: none;           // Brak brzydkiej ramki
+                outline: none;          // Brak ramki przy kliknięciu
+                color: inherit;         // Kolor tekstu taki sam jak w kontenerze
+                padding: $s1;
+                
+                // Style scrollbara dla samego textarea
+                &::-webkit-scrollbar {
+                    width: 6px;
+                }
+                &::-webkit-scrollbar-thumb {
+                    background: rgba(white, 0.1);
+                    border-radius: 10px;
+                }
             }
         }
     }
