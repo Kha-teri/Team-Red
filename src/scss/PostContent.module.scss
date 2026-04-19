@@ -20,17 +20,17 @@
 
     .scrollArea {
         flex: 1; 
-        display: flex;         // Dodajemy flexa tutaj
-        flex-direction: column; // Kierunek pionowy
-        overflow-y: hidden;     // Ukrywamy scroll tutaj, bo textarea ma własny
+        display: flex;
+        flex-direction: column;
+        overflow-y: hidden;
         margin-bottom: $s2;
         
         .content {
-            flex: 1;           // Rozciągamy content na całą wysokość scrollArea
-            display: flex;      // Content też musi być flexem dla textarea
+            flex: 1;
+            display: flex;
 
             textarea {
-                flex: 1;       // TEXTAREA zajmuje teraz 100% wysokości contentu
+                flex: 1;
                 width: 100%;
                 font-family: $font-main;
                 line-height: 1.5;
@@ -38,15 +38,12 @@
                 white-space: pre-wrap;
                 word-wrap: break-word;
                 resize: none;
-                
-                // --- STYLE WIZUALNE (żeby nie wyglądało jak na Twoim screenie) ---
-                background: transparent; // Przezroczyste tło
-                border: none;           // Brak brzydkiej ramki
-                outline: none;          // Brak ramki przy kliknięciu
-                color: inherit;         // Kolor tekstu taki sam jak w kontenerze
+                background: transparent;
+                border: none;
+                outline: none;
+                color: inherit;
                 padding: $s1;
                 
-                // Style scrollbara dla samego textarea
                 &::-webkit-scrollbar {
                     width: 6px;
                 }

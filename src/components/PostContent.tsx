@@ -5,6 +5,7 @@ import Button from './Button.tsx';
 
 interface PostContentProps {
     content: string;
+    onContentChange: (newVal: string) => void;
     onCopy?: () => void;
     onPost?: () => void;
 }
@@ -13,7 +14,7 @@ const handleCopy = (text: string) => {
     navigator.clipboard.writeText(text);
 }
 
-function PostContent ( {content, onCopy, onPost } : PostContentProps) {
+function PostContent ( {content, onCopy, onPost, onContentChange } : PostContentProps) {
     const handleCopyClick = () => {
         if (onCopy) {
             onCopy();
@@ -27,7 +28,7 @@ function PostContent ( {content, onCopy, onPost } : PostContentProps) {
         <div className={styles.container}>
             <div className={styles.scrollArea}>
                 <div className={styles.content}>
-                    <textarea>{content}</textarea>
+                    <textarea value={content} onChange={(e) => onContentChange(e.target.value)} placeholder="Your post will appear here..."/>
                 </div>
             </div>
 

@@ -8,10 +8,14 @@ interface Platform {
     type: string;
 }
 
-function SocialsPicker() {
+interface SocialsPickerProps {
+    onChange: (selectedIds: number[]) => void;
+}
+
+function SocialsPicker({ onChange } : SocialsPickerProps) {
     const [platforms, setPlatforms] = useState<Platform[]>([]);
     const [selectedSocials, setSelectedSocials] = useState<number[]>([]);
-    const api_url = 'https://team-red-api.azurewebsites.net/api';
+    const api_url = import.meta.env.VITE_API_URL;
 
     useEffect(() => {
         const fetchPlatforms = async () => {
@@ -30,10 +34,15 @@ function SocialsPicker() {
     }, []);
 
     const handleToggleSocial = (id: number) => {
+        let newSelection;
+
         if(selectedSocials.includes(id))
-            setSelectedSocials(selectedSocials.filter(el => el !== id));
+            newSelection = selectedSocials.filter(el => el !== id);
         else
-            setSelectedSocials([...selectedSocials, id]);
+            newSelection = [...selectedSocials, id];
+
+        setSelectedSocials(newSelection);
+        onChange(newSelection)
     }
 
     return (

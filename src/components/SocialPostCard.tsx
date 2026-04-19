@@ -5,12 +5,20 @@ import PromptInput from './PromptInput';
 import SocialsPicker from './SocialsPicker';
 import Button from './Button';
 
-function SocialPostCard() {
+interface SocialPostCardProps {
+    prompt: string;
+    setPrompt: (val: string) => void;
+    onGenerate: () => void;
+    isGenerating: boolean;
+    onSocialsChange: (ids: number[]) => void;
+}
+
+function SocialPostCard({ prompt, setPrompt, onGenerate, isGenerating, onSocialsChange } : SocialPostCardProps) {
     return (
         <div className={styles.container}>
-            <PromptInput />
-            <SocialsPicker />
-            <Button usage="generate" text="Generate post" />
+            <PromptInput value={prompt} onChange={setPrompt}/>
+            <SocialsPicker onChange={onSocialsChange} />
+            <Button usage="generate" text={isGenerating ? "Generating..." : "Generate Post"} onBtnClick={onGenerate} isDisabled={isGenerating}/>
         </div>
     );
 }
