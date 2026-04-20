@@ -10,7 +10,7 @@ interface AuthContextType {
 }
 
 const AuthContext = createContext<AuthContextType | undefined>(undefined);
-const api_url = 'https://team-red-api.azurewebsites.net/api';
+const api_url = import.meta.env.VITE_API_URL;
 
 export function AuthProvider({ children } : {children: ReactNode}) {
     const [isAuthenticated, setIsAuthenticated] = useState<boolean>(false);

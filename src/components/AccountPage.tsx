@@ -8,7 +8,7 @@ function AccountPage() {
     const [userData, setUserData] = useState(null);
     const [loading, setLoading] = useState(true);;
     const navigate = useNavigate();
-    const api_url = 'https://team-red-api.azurewebsites.net/api';
+    const api_url = import.meta.env.VITE_API_URL;
 
     useEffect(() => {
         const fetchUserData = async () => {

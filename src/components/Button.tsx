@@ -6,11 +6,12 @@ interface ButtonProps {
     usage: 'generate' | 'post' | 'copy' | 'login' | 'register' | 'navbar' | 'postaction' | 'logout';
     text: string;
     onBtnClick?: () => void;
+    isDisabled?: boolean;
 }
 
-function Button ( {usage, text, onBtnClick} : ButtonProps) {
+function Button ( {usage, text, onBtnClick, isDisabled} : ButtonProps) {
     return (
-        <button className={styles[usage]} onClick={onBtnClick}>{text}</button>
+        <button className={styles[usage]} onClick={onBtnClick} disabled={isDisabled}>{text}</button>
     );
 }
 
