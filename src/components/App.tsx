@@ -1,7 +1,7 @@
 //glowny komponent, layout
 import { Route, Routes, Navigate, useNavigate } from 'react-router-dom'
 import type { ReactNode } from 'react'
-import { useEffect } from 'react'
+import { useEffect, useState } from 'react'
 import styles from '../scss/App.module.scss'
 import Button from './Button'
 import SocialPostCard from './SocialPostCard.tsx'
@@ -15,6 +15,7 @@ import PostActionBar from './PostActionBar.tsx'
 import AccountLinker from './AccountLinker.tsx'
 import { AuthProvider, useAuth } from './AuthContext.tsx'
 import AccountPage from './AccountPage.tsx'
+import { addPostHistoryEntry } from './postHistory.tsx';
 
 function ProtectedRoute({children} : { children: ReactNode}) {
   const {isAuthenticated, loading} = useAuth();
@@ -26,7 +27,81 @@ function HomePage() {
   const {isAuthenticated, logout, loading } = useAuth();
   const navigate = useNavigate();
 
+  const [prompt, setPrompt] = useState("");
+  const [aiResponse, setAiResponse] = useState("Your post will appear here");
+  const [isGenerating, setIsGenerating] = useState(false);
+
+  const [selectedPlatforms, setSelectedPlatforms] = useState<number[]>([]);
+
+  const api_url = import.meta.env.VITE_API_URL;
+
   if(loading) return null;
+
+  const handleAskGemini = async() => {
+    if(!prompt.trim()) return;
+    setIsGenerating(true);
+
+    const formData = new FormData();
+    formData.append('Prompt', prompt);
+    formData.append('Model', 'Gemini3FlashPreview');
+
+    try {
+      const response = await fetch(`${api_url}/Gemini/ask-gemini`, {
+        method: 'POST',
+        body: formData,
+        credentials: 'include',
+      });
+
+      if(response.ok) {
+        const data = await response.json();
+        setAiResponse(data.response);
+        addPostHistoryEntry(prompt, data.response);
+      }
+      else
+        setAiResponse("Błąd serwera.");
+    }
+    catch(err) {
+      console.error(err);
+      setAiResponse("Blad połączenia z API.");
+    }
+    finally {
+      setIsGenerating(false);
+    }
+  }
+
+  const handleSavePost = async () => {
+    if(!aiResponse || aiResponse === "Your post will appear here") {
+      alert("Generate post first");
+      return;
+    }
+    if(selectedPlatforms.length === 0) {
+      alert("Select at least one platform");
+      return;
+    }
+
+    try {
+      const response = await fetch(`${api_url}/Post/add`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          content: aiResponse,
+          platformIds: selectedPlatforms
+        }),
+        credentials: 'include',
+      });
+
+      if(response.ok) {
+        setAiResponse("Your post will appear here");
+        setPrompt("");
+        setSelectedPlatforms([]);
+      }
+    } catch(err) {
+      console.error("Blad polaczenia z serwerem ", err);
+      return;
+    }
+  }
 
   /*
   const [weather, setWeather] = useState<any>(null);
@@ -67,10 +142,10 @@ function HomePage() {
             </div>
               
             <div className={styles.mainLayout}>
-              <SocialPostCard />
+              <SocialPostCard prompt={prompt} setPrompt={setPrompt} onGenerate={handleAskGemini} isGenerating={isGenerating} onSocialsChange={setSelectedPlatforms}/>
               <div className={styles.responseSection}>
                 {/*<PostContent content={error ? error : weather ? `Pogoda: ${weather.summary}, Temp: ${weather.temperatureC}` : 'Ladowanie danych...'} />*/}
-                <PostContent content="ai response" />
+                <PostContent content={aiResponse} onContentChange={setAiResponse} onPost={handleSavePost}/>
                 <PostActionBar />
               </div>
             </div>

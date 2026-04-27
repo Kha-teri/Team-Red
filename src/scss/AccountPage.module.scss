@@ -153,3 +153,192 @@
     background: $glow;
     box-shadow: 0 0 25px $glow;
 }
+
+.historySection {
+  margin-top: 24px;
+  padding: 20px;
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-radius: 18px;
+  background: rgba(255, 255, 255, 0.03);
+  backdrop-filter: blur(8px);
+}
+
+.historyHeader {
+  margin-bottom: 14px;
+}
+
+.historyTitle {
+  margin: 0;
+  font-size: 1.90rem;
+  font-weight: 700;
+  color: #fff;
+}
+
+.historySubtitle {
+  margin: 6px 0 0;
+  color: rgba(255, 255, 255, 0.6);
+  font-size: 1.15rem;
+}
+
+.historyForm {
+  display: grid;
+  gap: 10px;
+  margin-bottom: 18px;
+}
+
+.historyInput,
+.historyTextarea {
+  width: 100%;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 12px;
+  background: rgba(10, 12, 18, 0.9);
+  color: #f2f2f2;
+  padding: 12px 14px;
+  font: inherit;
+  outline: none;
+  box-sizing: border-box;
+}
+
+.historyInput:focus,
+.historyTextarea:focus {
+  border-color: rgba(0, 200, 255, 0.6);
+  box-shadow: 0 0 0 3px rgba(0, 200, 255, 0.12);
+}
+
+.historyTextarea {
+  min-height: 120px;
+  resize: vertical;
+}
+
+.historyActions,
+.historyItemActions {
+  display: flex;
+  gap: 10px;
+  flex-wrap: wrap;
+}
+
+.primaryAction,
+.secondaryAction,
+.itemButton,
+.itemButtonDanger {
+  border: 0;
+  border-radius: 10px;
+  padding: 10px 14px;
+  cursor: pointer;
+  font: inherit;
+  transition: transform 0.15s ease, opacity 0.15s ease, background 0.15s ease;
+}
+
+.primaryAction {
+  background: linear-gradient(135deg, #16c9ff, #1a7dff);
+  color: #fff;
+}
+
+.secondaryAction,
+.itemButton {
+  background: rgba(255, 255, 255, 0.08);
+  color: #fff;
+}
+
+.itemButtonDanger {
+  background: rgba(255, 80, 80, 0.14);
+  color: #ffb4b4;
+}
+
+.primaryAction:hover,
+.secondaryAction:hover,
+.itemButton:hover,
+.itemButtonDanger:hover {
+  transform: translateY(-1px);
+}
+
+.historyList {
+  display: grid;
+  gap: 12px;
+}
+
+.historyEmpty {
+  padding: 14px;
+  border-radius: 12px;
+  color: rgba(255, 255, 255, 0.55);
+  background: rgba(255, 255, 255, 0.03);
+  text-align: center;
+}
+
+.historyItem {
+  border-radius: 14px;
+  background: rgba(255, 255, 255, 0.045);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  overflow: hidden;
+}
+
+.historyItemHeader {
+  width: 100%;
+  background: rgba(8, 12, 18, 0.92);
+  border: 0;
+  color: inherit;
+  padding: 16px 18px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 14px;
+  text-align: left;
+  transition: background 0.15s ease;
+}
+
+.historyItemHeader:hover {
+  background: rgba(14, 18, 26, 0.98);
+}
+
+.historyItemTop {
+  display: flex;
+  justify-content: space-between;
+  gap: 12px;
+  align-items: baseline;
+  width: 100%;
+}
+
+.historyItemTitle {
+  font-size: clamp(1.15rem, 0.6vw + 0.9rem, 1.30rem);
+  font-weight: 700;
+  color: #ffffff;
+  letter-spacing: 0.01em;
+}
+
+.historyItemDate {
+  color: rgba(255, 255, 255, 0.55);
+  flex: 0 0 auto;
+}
+
+.historyChevron {
+  width: 30px;
+  height: 30px;
+  border-radius: 999px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  flex: 0 0 auto;
+  background: rgba(255, 255, 255, 0.08);
+  color: #ffffff;
+  font-size: 2rem;
+  line-height: 1;
+  transition: transform 0.15s ease, background 0.15s ease;
+}
+
+.historyItemHeader:hover .historyChevron {
+  background: rgba(255, 255, 255, 0.14);
+}
+
+.historyItemBody {
+  padding: 0 18px 16px;
+}
+
+.historyItemContent {
+  margin: 12px 0 14px;
+  color: rgba(255, 255, 255, 0.92);
+  line-height: 1.65;
+  white-space: pre-wrap;
+  word-break: break-word;
+  font-size: clamp(1.16rem, 0.5vw + 1rem, 1.38rem);
+}

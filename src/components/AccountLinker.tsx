@@ -24,7 +24,7 @@ interface UserPlatform {
 
 function AccountLinker() {
     const navigate = useNavigate();
-    const api_url = "https://team-red-api.azurewebsites.net/api";
+    const api_url = import.meta.env.VITE_API_URL;
 
     const [allPlatforms, setAllPlatforms] = useState<Platform[]>([]);
     const [userConnections, setUserConnections] = useState<UserPlatform[]>([]);

@@ -10,17 +10,38 @@ interface AuthContextType {
 }
 
 const AuthContext = createContext<AuthContextType | undefined>(undefined);
-const api_url = 'https://team-red-api.azurewebsites.net/api';
+const api_url = import.meta.env.VITE_API_URL;
 
 export function AuthProvider({ children } : {children: ReactNode}) {
     const [isAuthenticated, setIsAuthenticated] = useState<boolean>(false);
     const [loading, setLoading] = useState<boolean>(true);
 
     useEffect(() => {
-        const loggedIn = localStorage.getItem('isLoggedIn');
-        if(loggedIn === 'true')
-            setIsAuthenticated(true);
-        setLoading(false);
+        const verifySession = async () => {
+            try {
+                const response = await fetch(`${api_url}/Account/me`, {
+                    method: 'GET',
+                    credentials: 'include'
+                });
+
+                if(response.ok) {
+                    setIsAuthenticated(true);
+                    localStorage.setItem("isLoggedIn", 'true');
+                }
+                else {
+                    setIsAuthenticated(false);
+                    localStorage.removeItem('isLoggedIn');
+                }
+            }
+            catch(err) {
+                console.error("Authentication check failed ", err);
+                setIsAuthenticated(false);
+            }
+            finally {
+                setLoading(false);
+            }
+        };
+        verifySession();
     }, []);
 
     const login = async (username: string, password: string) => {
