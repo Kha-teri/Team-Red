@@ -15,6 +15,7 @@ import PostActionBar from './PostActionBar.tsx'
 import AccountLinker from './AccountLinker.tsx'
 import { AuthProvider, useAuth } from './AuthContext.tsx'
 import AccountPage from './AccountPage.tsx'
+import { addPostHistoryEntry } from './postHistory.tsx';
 
 function ProtectedRoute({children} : { children: ReactNode}) {
   const {isAuthenticated, loading} = useAuth();
@@ -54,6 +55,7 @@ function HomePage() {
       if(response.ok) {
         const data = await response.json();
         setAiResponse(data.response);
+        addPostHistoryEntry(prompt, data.response);
       }
       else
         setAiResponse("Błąd serwera.");

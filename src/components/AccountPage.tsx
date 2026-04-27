@@ -2,6 +2,12 @@ import styles from '../scss/AccountPage.module.scss'
 import {useState, useEffect} from 'react'
 import Button from './Button'
 import { useNavigate } from 'react-router-dom';
+import {
+  getPostHistory,
+  updatePostHistoryEntry,
+  deletePostHistoryEntry,
+  type PostHistoryEntry
+} from './postHistory'
 
 function AccountPage() {
     const [themeMode, setThemeMode] = useState<string>(localStorage.getItem("theme") || "dark");
@@ -9,6 +15,52 @@ function AccountPage() {
     const [loading, setLoading] = useState(true);;
     const navigate = useNavigate();
     const api_url = import.meta.env.VITE_API_URL;
+    
+    const [history, setHistory] = useState<PostHistoryEntry[]>([])
+    const [expandedId, setExpandedId] = useState<string | null>(null)
+    const [editingId, setEditingId] = useState<string | null>(null)
+    const [editContent, setEditContent] = useState('')
+
+    const loadHistory = () => setHistory(getPostHistory());
+
+    useEffect(() => {
+        loadHistory();
+    }, []);
+
+    const handleEdit = (item: PostHistoryEntry) => {
+        setExpandedId(item.id)
+        setEditingId(item.id)
+        setEditContent(item.content)
+    };
+
+    const handleSaveEdit = () => {
+        if (!editingId || !editContent.trim()) return
+
+        const item = history.find((h) => h.id === editingId)
+        if (!item) return
+
+        updatePostHistoryEntry(editingId, {
+        prompt: item.prompt,
+        content: editContent,
+        })
+
+        setEditingId(null)
+        setEditContent('')
+        loadHistory()
+    }
+
+
+    const handleDelete = (id: string) => {
+        deletePostHistoryEntry(id)
+
+        if (expandedId === id) setExpandedId(null)
+        if (editingId === id) {
+            setEditingId(null)
+            setEditContent('')
+        }
+
+        loadHistory()
+    };
 
     useEffect(() => {
         const fetchUserData = async () => {
@@ -99,6 +151,92 @@ function AccountPage() {
                                 <div className={styles.switchThumb} />
                             </div>
                         </div>
+
+
+                        <div className={styles.historySection}>
+                            <div className={styles.historyHeader}>
+                                <div>
+                                <h2 className={styles.historyTitle}>Historia postów</h2>
+                                <p className={styles.historySubtitle}>
+                                    Kliknij wpis, aby go rozwinąć. Edycja pokazuje się tylko po wybraniu posta.
+                                </p>
+                                </div>
+                            </div>
+
+                            <div className={styles.historyScroll}>
+                                {history.length === 0 ? (
+                                <div className={styles.historyEmpty}>Brak zapisanych postów.</div>
+                                ) : (
+                                history.map((item) => {
+                                    const isOpen = expandedId === item.id
+                                    const isEditing = editingId === item.id
+
+                                    return (
+                                    <div key={item.id} className={styles.historyItem}>
+                                        <button
+                                        type="button"
+                                        className={styles.historyItemHeader}
+                                        onClick={() => setExpandedId(isOpen ? null : item.id)}
+                                        >
+                                        <div className={styles.historyItemTop}>
+                                            <strong className={styles.historyItemTitle}>
+                                            {item.prompt || '(bez promptu)'}
+                                            </strong>
+                                            <small className={styles.historyItemDate}>
+                                            {new Date(item.createdAt).toLocaleString()}
+                                            </small>
+                                        </div>
+                                        <span className={styles.historyChevron} aria-hidden="true">
+                                            {isOpen ? '▾' : '▸'}
+                                        </span>
+                                        </button>
+
+                                        {isOpen && (
+                                        <div className={styles.historyItemBody}>
+                                            {isEditing ? (
+                                            <div className={styles.editPanel}>
+                                                <textarea
+                                                className={styles.historyTextarea}
+                                                value={editContent}
+                                                onChange={(e) => setEditContent(e.target.value)}
+                                                />
+                                                <div className={styles.historyItemActions}>
+                                                <button className={styles.primaryAction} onClick={handleSaveEdit}>
+                                                    Zapisz zmiany
+                                                </button>
+                                                <button
+                                                    className={styles.secondaryAction}
+                                                    onClick={() => {
+                                                    setEditingId(null)
+                                                    setEditContent('')
+                                                    }}
+                                                >
+                                                    Anuluj
+                                                </button>
+                                                </div>
+                                            </div>
+                                            ) : (
+                                            <>
+                                                <p className={styles.historyItemContent}>{item.content}</p>
+                                                <div className={styles.historyItemActions}>
+                                                <button className={styles.itemButton} onClick={() => handleEdit(item)}>
+                                                    Edytuj
+                                                </button>
+                                                <button className={styles.itemButtonDanger} onClick={() => handleDelete(item.id)}>
+                                                    Usuń
+                                                </button>
+                                                </div>
+                                            </>
+                                            )}
+                                        </div>
+                                        )}
+                                    </div>
+                                    )
+                                })
+                                )}
+                            </div>
+                        </div>
+
                         <Button usage="navbar" text="Back to Home" onBtnClick={() => navigate("/")}/>
                     </div>
                 </div>
