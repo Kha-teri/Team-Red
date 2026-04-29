@@ -21,11 +21,11 @@ function RegisterPage() {
         <h1>Create account</h1>
 
         <form className={styles.form} onSubmit={handleRegister}>
-          <label htmlFor="fullName">Full name</label>
-          <input id="fullName" type="text" placeholder="John Smith" onChange={e => setFormData({...formData, fullName: e.target.value})} />
+          <label htmlFor="fullName">User name</label>
+          <input id="fullName" type="text" placeholder="Example user name" onChange={e => setFormData({...formData, fullName: e.target.value})} />
 
           <label htmlFor="email">Email</label>
-          <input id="email" type="email" placeholder="john@example.com" onChange={e => setFormData({...formData, email: e.target.value})} />
+          <input id="email" type="email" placeholder="user@example.com" onChange={e => setFormData({...formData, email: e.target.value})} />
 
           <label htmlFor="password">Password</label>
           <input id="password" type="password" placeholder="At least 8 characters" onChange={e => setFormData({...formData, password: e.target.value})} />
