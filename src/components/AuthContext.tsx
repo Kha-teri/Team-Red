@@ -73,7 +73,7 @@ export function AuthProvider({ children } : {children: ReactNode}) {
             const response = await fetch(`${api_url}/Account/register`, {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify({ fullName, email, userName: email, password })
+                body: JSON.stringify({ fullName, email, userName: fullName, password })
             });
             return response.ok;
         } catch { return false; }
