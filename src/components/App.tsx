@@ -16,6 +16,7 @@ import AccountLinker from './AccountLinker.tsx'
 import { AuthProvider, useAuth } from './AuthContext.tsx'
 import AccountPage from './AccountPage.tsx'
 import { addPostHistoryEntry } from './postHistory.tsx';
+import AuthCallbackHandler from './AuthCallbackHandler.tsx'
 
 function ProtectedRoute({children} : { children: ReactNode}) {
   const {isAuthenticated, loading} = useAuth();
@@ -30,10 +31,21 @@ function HomePage() {
   const [prompt, setPrompt] = useState("");
   const [aiResponse, setAiResponse] = useState("Your post will appear here");
   const [isGenerating, setIsGenerating] = useState(false);
-
   const [selectedPlatforms, setSelectedPlatforms] = useState<number[]>([]);
+  const [userConnections, setUserConnections] = useState<any[]>([]);
 
   const api_url = import.meta.env.VITE_API_URL;
+
+  useEffect(() => {
+    if(isAuthenticated) {
+      fetch(`${api_url}/UserPlatform/user-platforms`, {
+        credentials: 'include'
+      })
+      .then(res => res.ok ? res.json() : [])
+      .then(data => setUserConnections(data))
+      .catch(err => console.error("Error with fetching connections ", err));
+    }
+  }, [isAuthenticated, api_url]);
 
   if(loading) return null;
 
@@ -103,25 +115,6 @@ function HomePage() {
     }
   }
 
-  /*
-  const [weather, setWeather] = useState<any>(null);
-  const [error, setError] = useState<string | null>(null);
-
-  useEffect(() => {
-    fetch('http://localhost:5000/WeatherForecast')
-    .then(response => {
-      if(!response.ok) throw new Error('blad sieci');
-      return response.json();
-    }).then(data => {
-      setWeather(data[0])
-    })
-    .catch(err => {
-      console.error(err)
-      setError("nie udalo sie pobrac pogody");
-    })
-  }, []);
-  */
-
   return (
     <div className={styles.container}>
       {isAuthenticated ? <Navbar /> : <></>}
@@ -172,6 +165,7 @@ function App() {
         <Route path="/linker" element={<ProtectedRoute><AccountLinker /></ProtectedRoute>} />
         <Route path="/about" element={<ProtectedRoute><AboutPage /></ProtectedRoute>} />
         <Route path="/contact" element={<ProtectedRoute><ContactPage /></ProtectedRoute>} />
+        <Route path="/auth/callback/:platformName" element={<ProtectedRoute><AuthCallbackHandler /></ProtectedRoute>} />
       </Routes>
     </AuthProvider>
     

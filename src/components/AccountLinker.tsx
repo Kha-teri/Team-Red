@@ -52,9 +52,30 @@ function AccountLinker() {
 
     useEffect(() => {loadData();}, []);
 
-    const handleConnect = async (platformId: number) => {
+    const handleConnect = async (platform: Platform) => {
+        if(platform.type === 'LinkedIn') {
+            try {
+                const res = await fetch(`${api_url}/LinkedIn/authorize`, {
+                    credentials: 'include'
+                });
+
+                if(res.ok) {
+                    const data = await res.json();
+                    if(data.url) {
+                        window.location.href = data.url;
+                    }
+                }
+                else {
+                    console.error("Error with fetching authorization URL");
+                }
+            } catch(err) {
+                console.error("Error with connecting to LinkedIn ", err);
+            }
+            return;
+        }
+
         const requestBody = {
-            platformId: platformId,
+            platformId: platform.id,
             accessToken: "test_token",
             externalAccountId: "ext_123",
             accountUsername: "NewUser",
@@ -137,7 +158,7 @@ function AccountLinker() {
                                     </div>
                                 </div>
 
-                                <button className={isConnected ? styles.disconnectBtn : styles.connectBtn} onClick={() => isConnected ? handleDisconnect(connection.id) : handleConnect(platform.id)}>
+                                <button className={isConnected ? styles.disconnectBtn : styles.connectBtn} onClick={() => isConnected ? handleDisconnect(connection.id) : handleConnect(platform)}>
                                     {isConnected ? 'Disconnect' : 'Connect account'}
                                 </button>
                             </div>
