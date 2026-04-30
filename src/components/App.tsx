@@ -69,8 +69,11 @@ function HomePage() {
         setAiResponse(data.response);
         addPostHistoryEntry(prompt, data.response);
       }
-      else
-        setAiResponse("Błąd serwera.");
+      else {
+        const errorData = await response.text();
+        console.error("Server error (400):", errorData);
+        setAiResponse("Server error");
+      }
     }
     catch(err) {
       console.error(err);
@@ -81,6 +84,7 @@ function HomePage() {
     }
   }
 
+  /*
   const handleSavePost = async () => {
     if(!aiResponse || aiResponse === "Your post will appear here") {
       alert("Generate post first");
@@ -114,6 +118,72 @@ function HomePage() {
       return;
     }
   }
+  */
+
+  const handlePublish = async () => {
+    if(!aiResponse || aiResponse == "Your post will appear here") return alert("Generate post first");
+    if(selectedPlatforms.length === 0) return alert("Select at least one platform");
+
+    for(const platformId of selectedPlatforms) {
+      const connection = userConnections.find(con => con.platform.id === platformId);
+
+      console.log("Wysyłam post:", { 
+            UserPlatformId: connection.id, 
+            Content: aiResponse 
+          });
+
+      if(connection && connection.platform.type === "LinkedIn") {
+        try {
+          const res = await fetch(`${api_url}/LinkedIn/post`, {
+            method: 'POST',
+            headers: {'Content-Type': 'application/json'},
+            body: JSON.stringify({
+              userPlatformId: connection.id,
+              text: aiResponse,
+            }),
+            credentials: 'include'
+          });
+
+          if(!res.ok) {
+            const errorText = await res.text();
+            console.error(`Error with API (${res.status}):`, errorText);
+            throw new Error(`LinkedIn API returned ${res.status}: ${errorText}`);
+          }
+
+          alert("Pubilshed on LinkedIn");
+        } catch(err) {
+          console.error("Error with publishing, post did not publish", err);
+          return;
+        }
+      }
+    }
+
+    try {
+        const response = await fetch(`${api_url}/Post/add`, {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({
+              Title: prompt.substring(0,20),
+              Body: aiResponse,
+              promptText: prompt,
+              PlatformIds: selectedPlatforms
+            }),
+            credentials: 'include',
+        });
+
+        if (response.ok) {
+            setAiResponse("Your post will appear here");
+            setPrompt("");
+            setSelectedPlatforms([]);
+        }
+        else {
+          const errorData = await response.text();
+          console.error("Error with saving post", errorData);
+        }
+    } catch (err) {
+        console.error("Error with saving post", err);
+    }
+  }
 
   return (
     <div className={styles.container}>
@@ -135,10 +205,9 @@ function HomePage() {
             </div>
               
             <div className={styles.mainLayout}>
-              <SocialPostCard prompt={prompt} setPrompt={setPrompt} onGenerate={handleAskGemini} isGenerating={isGenerating} onSocialsChange={setSelectedPlatforms}/>
+              <SocialPostCard prompt={prompt} setPrompt={setPrompt} onGenerate={handleAskGemini} isGenerating={isGenerating} selectedPlatforms={selectedPlatforms} onSocialsChange={setSelectedPlatforms}/>
               <div className={styles.responseSection}>
-                {/*<PostContent content={error ? error : weather ? `Pogoda: ${weather.summary}, Temp: ${weather.temperatureC}` : 'Ladowanie danych...'} />*/}
-                <PostContent content={aiResponse} onContentChange={setAiResponse} onPost={handleSavePost}/>
+                <PostContent content={aiResponse} onContentChange={setAiResponse} onPost={handlePublish}/>
                 <PostActionBar />
               </div>
             </div>

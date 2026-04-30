@@ -10,11 +10,12 @@ interface Platform {
 
 interface SocialsPickerProps {
     onChange: (selectedIds: number[]) => void;
+    selectedIds: number[];
 }
 
-function SocialsPicker({ onChange } : SocialsPickerProps) {
+function SocialsPicker({ onChange, selectedIds } : SocialsPickerProps) {
     const [platforms, setPlatforms] = useState<Platform[]>([]);
-    const [selectedSocials, setSelectedSocials] = useState<number[]>([]);
+    //const [selectedSocials, setSelectedSocials] = useState<number[]>([]);
     const api_url = import.meta.env.VITE_API_URL;
 
     useEffect(() => {
@@ -36,12 +37,11 @@ function SocialsPicker({ onChange } : SocialsPickerProps) {
     const handleToggleSocial = (id: number) => {
         let newSelection;
 
-        if(selectedSocials.includes(id))
-            newSelection = selectedSocials.filter(el => el !== id);
+        if(selectedIds.includes(id))
+            newSelection = selectedIds.filter(el => el !== id);
         else
-            newSelection = [...selectedSocials, id];
+            newSelection = [...selectedIds, id];
 
-        setSelectedSocials(newSelection);
         onChange(newSelection)
     }
 
@@ -53,7 +53,7 @@ function SocialsPicker({ onChange } : SocialsPickerProps) {
                     const iconName = platform.type.toLowerCase();
 
                     return (
-                        <button key={platform.id} className={selectedSocials.includes(platform.id) ? styles.active : ''} onClick={() => handleToggleSocial(platform.id)}>
+                        <button key={platform.id} className={selectedIds.includes(platform.id) ? styles.active : ''} onClick={() => handleToggleSocial(platform.id)}>
                             <img src={`/img/${iconName}_icon.svg`} alt={platform.type} />
                         </button>
                     )
