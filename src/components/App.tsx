@@ -33,6 +33,7 @@ function HomePage() {
   const [isGenerating, setIsGenerating] = useState(false);
   const [selectedPlatforms, setSelectedPlatforms] = useState<number[]>([]);
   const [userConnections, setUserConnections] = useState<any[]>([]);
+  const [isRegenerating, setIsRegenerating] = useState(false);
 
   const api_url = import.meta.env.VITE_API_URL;
 
@@ -81,6 +82,41 @@ function HomePage() {
     }
     finally {
       setIsGenerating(false);
+    }
+  }
+
+  const handleRegenerate = async () => {
+    if(!prompt.trim()) return;
+    setIsRegenerating(true);
+
+    const formData = new FormData();
+    formData.append('Prompt', prompt);
+    formData.append('Model', 'Gemini3FlashPreview');
+
+    try {
+      const response = await fetch(`${api_url}/Gemini/ask-gemini`, {
+        method: 'POST',
+        body: formData,
+        credentials: 'include',
+      });
+
+      if(response.ok) {
+        const data = await response.json();
+        setAiResponse(data.response);
+        addPostHistoryEntry(prompt, data.response);
+      }
+      else {
+        const errorData = await response.text();
+        console.error("Server error (400):", errorData);
+        setAiResponse("Server error");
+      }
+    }
+    catch(err) {
+      console.error(err);
+      setAiResponse("Blad połączenia z API.");
+    }
+    finally {
+      setIsRegenerating(false);
     }
   }
 
@@ -205,10 +241,10 @@ function HomePage() {
             </div>
               
             <div className={styles.mainLayout}>
-              <SocialPostCard prompt={prompt} setPrompt={setPrompt} onGenerate={handleAskGemini} isGenerating={isGenerating} selectedPlatforms={selectedPlatforms} onSocialsChange={setSelectedPlatforms}/>
+              <SocialPostCard prompt={prompt} setPrompt={setPrompt} onGenerate={handleAskGemini} isGenerating={isGenerating} isDisabled={isGenerating || isRegenerating} selectedPlatforms={selectedPlatforms} onSocialsChange={setSelectedPlatforms}/>
               <div className={styles.responseSection}>
                 <PostContent content={aiResponse} onContentChange={setAiResponse} onPost={handlePublish}/>
-                <PostActionBar />
+                <PostActionBar isGenerating={isRegenerating} isDisabled={isGenerating || isRegenerating} onRegenerate={handleRegenerate} />
               </div>
             </div>
           </>
