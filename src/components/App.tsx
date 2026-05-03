@@ -16,6 +16,7 @@ import AccountLinker from './AccountLinker.tsx'
 import { AuthProvider, useAuth } from './AuthContext.tsx'
 import AccountPage from './AccountPage.tsx'
 import { addPostHistoryEntry } from './postHistory.tsx';
+import AuthCallbackHandler from './AuthCallbackHandler.tsx'
 
 function ProtectedRoute({children} : { children: ReactNode}) {
   const {isAuthenticated, loading} = useAuth();
@@ -30,10 +31,21 @@ function HomePage() {
   const [prompt, setPrompt] = useState("");
   const [aiResponse, setAiResponse] = useState("Your post will appear here");
   const [isGenerating, setIsGenerating] = useState(false);
-
   const [selectedPlatforms, setSelectedPlatforms] = useState<number[]>([]);
+  const [userConnections, setUserConnections] = useState<any[]>([]);
 
   const api_url = import.meta.env.VITE_API_URL;
+
+  useEffect(() => {
+    if(isAuthenticated) {
+      fetch(`${api_url}/UserPlatform/user-platforms`, {
+        credentials: 'include'
+      })
+      .then(res => res.ok ? res.json() : [])
+      .then(data => setUserConnections(data))
+      .catch(err => console.error("Error with fetching connections ", err));
+    }
+  }, [isAuthenticated, api_url]);
 
   if(loading) return null;
 
@@ -57,8 +69,11 @@ function HomePage() {
         setAiResponse(data.response);
         addPostHistoryEntry(prompt, data.response);
       }
-      else
-        setAiResponse("Błąd serwera.");
+      else {
+        const errorData = await response.text();
+        console.error("Server error (400):", errorData);
+        setAiResponse("Server error");
+      }
     }
     catch(err) {
       console.error(err);
@@ -69,6 +84,7 @@ function HomePage() {
     }
   }
 
+  /*
   const handleSavePost = async () => {
     if(!aiResponse || aiResponse === "Your post will appear here") {
       alert("Generate post first");
@@ -102,25 +118,72 @@ function HomePage() {
       return;
     }
   }
-
-  /*
-  const [weather, setWeather] = useState<any>(null);
-  const [error, setError] = useState<string | null>(null);
-
-  useEffect(() => {
-    fetch('http://localhost:5000/WeatherForecast')
-    .then(response => {
-      if(!response.ok) throw new Error('blad sieci');
-      return response.json();
-    }).then(data => {
-      setWeather(data[0])
-    })
-    .catch(err => {
-      console.error(err)
-      setError("nie udalo sie pobrac pogody");
-    })
-  }, []);
   */
+
+  const handlePublish = async () => {
+    if(!aiResponse || aiResponse == "Your post will appear here") return alert("Generate post first");
+    if(selectedPlatforms.length === 0) return alert("Select at least one platform");
+
+    for(const platformId of selectedPlatforms) {
+      const connection = userConnections.find(con => con.platform.id === platformId);
+
+      console.log("Wysyłam post:", { 
+            UserPlatformId: connection.id, 
+            Content: aiResponse 
+          });
+
+      if(connection && connection.platform.type === "LinkedIn") {
+        try {
+          const res = await fetch(`${api_url}/LinkedIn/post`, {
+            method: 'POST',
+            headers: {'Content-Type': 'application/json'},
+            body: JSON.stringify({
+              userPlatformId: connection.id,
+              text: aiResponse,
+            }),
+            credentials: 'include'
+          });
+
+          if(!res.ok) {
+            const errorText = await res.text();
+            console.error(`Error with API (${res.status}):`, errorText);
+            throw new Error(`LinkedIn API returned ${res.status}: ${errorText}`);
+          }
+
+          alert("Pubilshed on LinkedIn");
+        } catch(err) {
+          console.error("Error with publishing, post did not publish", err);
+          return;
+        }
+      }
+    }
+
+    try {
+        const response = await fetch(`${api_url}/Post/add`, {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({
+              Title: prompt.substring(0,20),
+              Body: aiResponse,
+              promptText: prompt,
+              PlatformIds: selectedPlatforms
+            }),
+            credentials: 'include',
+        });
+
+        if (response.ok) {
+            setAiResponse("Your post will appear here");
+            setPrompt("");
+            setSelectedPlatforms([]);
+        }
+        else {
+          const errorData = await response.text();
+          console.error("Error with saving post", errorData);
+        }
+    } catch (err) {
+        console.error("Error with saving post", err);
+    }
+  }
 
   return (
     <div className={styles.container}>
@@ -142,10 +205,9 @@ function HomePage() {
             </div>
               
             <div className={styles.mainLayout}>
-              <SocialPostCard prompt={prompt} setPrompt={setPrompt} onGenerate={handleAskGemini} isGenerating={isGenerating} onSocialsChange={setSelectedPlatforms}/>
+              <SocialPostCard prompt={prompt} setPrompt={setPrompt} onGenerate={handleAskGemini} isGenerating={isGenerating} selectedPlatforms={selectedPlatforms} onSocialsChange={setSelectedPlatforms}/>
               <div className={styles.responseSection}>
-                {/*<PostContent content={error ? error : weather ? `Pogoda: ${weather.summary}, Temp: ${weather.temperatureC}` : 'Ladowanie danych...'} />*/}
-                <PostContent content={aiResponse} onContentChange={setAiResponse} onPost={handleSavePost}/>
+                <PostContent content={aiResponse} onContentChange={setAiResponse} onPost={handlePublish}/>
                 <PostActionBar />
               </div>
             </div>
@@ -172,6 +234,7 @@ function App() {
         <Route path="/linker" element={<ProtectedRoute><AccountLinker /></ProtectedRoute>} />
         <Route path="/about" element={<ProtectedRoute><AboutPage /></ProtectedRoute>} />
         <Route path="/contact" element={<ProtectedRoute><ContactPage /></ProtectedRoute>} />
+        <Route path="/auth/callback/:platformName" element={<ProtectedRoute><AuthCallbackHandler /></ProtectedRoute>} />
       </Routes>
     </AuthProvider>
     
