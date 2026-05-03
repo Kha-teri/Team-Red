@@ -12,14 +12,15 @@ interface SocialPostCardProps {
     isGenerating: boolean;
     selectedPlatforms: number[];
     onSocialsChange: (ids: number[]) => void;
+    isDisabled?: boolean;
 }
 
-function SocialPostCard({ prompt, setPrompt, onGenerate, isGenerating, selectedPlatforms, onSocialsChange } : SocialPostCardProps) {
+function SocialPostCard({ prompt, setPrompt, onGenerate, isGenerating, selectedPlatforms, onSocialsChange, isDisabled } : SocialPostCardProps) {
     return (
         <div className={styles.container}>
             <PromptInput value={prompt} onChange={setPrompt}/>
             <SocialsPicker selectedIds={selectedPlatforms} onChange={onSocialsChange} />
-            <Button usage="generate" text={isGenerating ? "Generating..." : "Generate Post"} onBtnClick={onGenerate} isDisabled={isGenerating}/>
+            <Button usage="generate" text={isGenerating ? "Generating..." : "Generate Post"} onBtnClick={onGenerate} isDisabled={isDisabled || isGenerating}/>
         </div>
     );
 }

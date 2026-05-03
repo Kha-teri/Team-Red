@@ -2,10 +2,16 @@
 import styles from "../scss/PostActionBar.module.scss"
 import Button from './Button'
 
-function PostActionBar() {
+interface PostActionBarProps {
+    isGenerating: boolean;
+    isDisabled?: boolean;
+    onRegenerate?: () => void;
+}
+
+function PostActionBar({onRegenerate, isGenerating, isDisabled} : PostActionBarProps) {
     return (
         <div className={styles.container}>
-            <Button usage="postaction" text="Re-generate" />
+            <Button usage="postaction" text={isGenerating ? "Re-generating..." : "Re-generate"} onBtnClick={onRegenerate} isDisabled={isGenerating || isDisabled} />
         </div>
     );
 }
