@@ -16,7 +16,6 @@ import AccountLinker from './AccountLinker.tsx'
 import { AuthProvider, useAuth } from './AuthContext.tsx'
 import AccountPage from './AccountPage.tsx'
 import { addPostHistoryEntry } from './postHistory.tsx';
-import AuthCallbackHandler from './AuthCallbackHandler.tsx'
 
 function ProtectedRoute({children} : { children: ReactNode}) {
   const {isAuthenticated, loading} = useAuth();
@@ -270,7 +269,6 @@ function App() {
         <Route path="/linker" element={<ProtectedRoute><AccountLinker /></ProtectedRoute>} />
         <Route path="/about" element={<ProtectedRoute><AboutPage /></ProtectedRoute>} />
         <Route path="/contact" element={<ProtectedRoute><ContactPage /></ProtectedRoute>} />
-        <Route path="/auth/callback/:platformName" element={<ProtectedRoute><AuthCallbackHandler /></ProtectedRoute>} />
       </Routes>
     </AuthProvider>
     

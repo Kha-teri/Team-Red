@@ -2,6 +2,7 @@ import { useState, useEffect } from 'react';
 import styles from '../scss/AccountLinker.module.scss'
 import { useNavigate } from 'react-router-dom';
 import Button from './Button';
+import { useAuth } from './AuthContext';
 
 /* interface AccountLinkerProps {
     id: string;
@@ -29,9 +30,12 @@ function AccountLinker() {
     const [allPlatforms, setAllPlatforms] = useState<Platform[]>([]);
     const [userConnections, setUserConnections] = useState<UserPlatform[]>([]);
     const [loading, setLoading] = useState(true);
+    const { verifySession } = useAuth();
 
     const loadData = async() => {
         try {
+            await verifySession();
+
             const [platRes, userRes] = await Promise.all([
                 fetch(`${api_url}/Platform/platforms`),
                 fetch(`${api_url}/UserPlatform/user-platforms`, { credentials: 'include'})
@@ -50,7 +54,20 @@ function AccountLinker() {
         }
     };
 
-    useEffect(() => {loadData();}, []);
+    useEffect(() => {
+        const params = new URLSearchParams(window.location.search);
+        const hasSuccess = params.get('success') === 'true';
+        
+        const init = async () => {
+            if(hasSuccess) {
+                window.history.replaceState({}, document.title, window.location.pathname);
+                await loadData();
+            }
+            else await loadData();
+        };
+
+        init();
+    }, []);
 
     const handleConnect = async (platform: Platform) => {
         if(platform.type === 'LinkedIn') {
@@ -74,6 +91,7 @@ function AccountLinker() {
             return;
         }
 
+        /*
         const requestBody = {
             platformId: platform.id,
             accessToken: "test_token",
@@ -96,6 +114,7 @@ function AccountLinker() {
         catch(err) {
             console.error("Blad dodawania: ", err);
         }
+        */
     }
 
     const handleDisconnect = async (userPlatformId: number) => {

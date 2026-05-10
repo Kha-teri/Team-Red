@@ -2,6 +2,7 @@ import { createContext, useContext, useState, useEffect } from 'react';
 import type { ReactNode } from 'react';
 
 interface AuthContextType {
+    verifySession: () => Promise<boolean>;
     isAuthenticated: boolean;
     register: (fullName: string, email: string, password: string) => Promise<boolean>
     login: (email: string, password: string) => Promise<boolean>;
@@ -16,33 +17,35 @@ export function AuthProvider({ children } : {children: ReactNode}) {
     const [isAuthenticated, setIsAuthenticated] = useState<boolean>(false);
     const [loading, setLoading] = useState<boolean>(true);
 
-    useEffect(() => {
-        const verifySession = async () => {
-            try {
-                const response = await fetch(`${api_url}/Account/me`, {
-                    method: 'GET',
-                    credentials: 'include'
-                });
+    const verifySession = async () => {
+        try {
+            const response = await fetch(`${api_url}/Account/me`, {
+                method: 'GET',
+                credentials: 'include'
+            });
 
-                if(response.ok) {
-                    setIsAuthenticated(true);
-                    localStorage.setItem("isLoggedIn", 'true');
-                }
-                else {
-                    setIsAuthenticated(false);
-                    localStorage.removeItem('isLoggedIn');
-                }
+            if(response.ok) {
+                setIsAuthenticated(true);
+                localStorage.setItem("isLoggedIn", 'true');
+                return true;
             }
-            catch(err) {
-                console.error("Authentication check failed ", err);
+            else {
                 setIsAuthenticated(false);
+                localStorage.removeItem('isLoggedIn');
+                return false;
             }
-            finally {
-                setLoading(false);
-            }
-        };
-        verifySession();
-    }, []);
+        }
+        catch(err) {
+            console.error("Authentication check failed ", err);
+            setIsAuthenticated(false);
+            return false;
+        }
+        finally {
+            setLoading(false);
+        }
+    };
+
+    useEffect(() => { verifySession(); }, []);
 
     const login = async (username: string, password: string) => {
         try {
@@ -89,7 +92,7 @@ export function AuthProvider({ children } : {children: ReactNode}) {
     };
 
     return (
-        <AuthContext.Provider value={{ isAuthenticated, login, register, logout, loading}}>
+        <AuthContext.Provider value={{ isAuthenticated, login, register, logout, loading, verifySession }}>
             {children}
         </AuthContext.Provider>
     );
