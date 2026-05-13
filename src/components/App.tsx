@@ -67,7 +67,7 @@ function HomePage() {
       if(response.ok) {
         const data = await response.json();
         setAiResponse(data.response);
-        addPostHistoryEntry(prompt, data.response);
+        await addPostHistoryEntry(prompt, data.response);
       }
       else {
         const errorData = await response.text();
@@ -102,7 +102,7 @@ function HomePage() {
       if(response.ok) {
         const data = await response.json();
         setAiResponse(data.response);
-        addPostHistoryEntry(prompt, data.response);
+        await addPostHistoryEntry(prompt, data.response);
       }
       else {
         const errorData = await response.text();

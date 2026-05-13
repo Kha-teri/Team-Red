@@ -21,7 +21,7 @@ function AccountPage() {
     const [editingId, setEditingId] = useState<string | null>(null)
     const [editContent, setEditContent] = useState('')
 
-    const loadHistory = () => setHistory(getPostHistory());
+    const loadHistory = async () => setHistory(await getPostHistory());
 
     useEffect(() => {
         loadHistory();
@@ -33,33 +33,30 @@ function AccountPage() {
         setEditContent(item.content)
     };
 
-    const handleSaveEdit = () => {
-        if (!editingId || !editContent.trim()) return
-
-        const item = history.find((h) => h.id === editingId)
-        if (!item) return
-
-        updatePostHistoryEntry(editingId, {
-        prompt: item.prompt,
-        content: editContent,
-        })
-
-        setEditingId(null)
-        setEditContent('')
-        loadHistory()
-    }
+    const handleSaveEdit = async () => {
+        if (!editingId || !editContent.trim()) return;
+        const item = history.find((h) => h.id === editingId);
+        if (!item) return;
+        const ok = await updatePostHistoryEntry(editingId, { prompt: item.prompt, content: editContent });
+        if (ok) {
+            setEditingId(null);
+            setEditContent('');
+            await loadHistory();
+        } else {
+            // obsłuż błąd
+  }
+}
 
 
-    const handleDelete = (id: string) => {
-        deletePostHistoryEntry(id)
-
-        if (expandedId === id) setExpandedId(null)
-        if (editingId === id) {
-            setEditingId(null)
-            setEditContent('')
+    const handleDelete = async (id: string) => {
+        const ok = await deletePostHistoryEntry(id);
+        if (ok) {
+            if (expandedId === id) setExpandedId(null)
+            if (editingId === id) { setEditingId(null); setEditContent('') }
+            await loadHistory();
+        } else {
+            // obsłuż błąd
         }
-
-        loadHistory()
     };
 
     useEffect(() => {
