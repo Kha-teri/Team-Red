@@ -26,12 +26,10 @@ export function AuthProvider({ children } : {children: ReactNode}) {
 
             if(response.ok) {
                 setIsAuthenticated(true);
-                localStorage.setItem("isLoggedIn", 'true');
                 return true;
             }
             else {
                 setIsAuthenticated(false);
-                localStorage.removeItem('isLoggedIn');
                 return false;
             }
         }
@@ -57,7 +55,6 @@ export function AuthProvider({ children } : {children: ReactNode}) {
             });
 
             if(response.ok) {
-                localStorage.setItem('isLoggedIn', 'true');
                 setIsAuthenticated(true);
                 return true;
             }
@@ -86,7 +83,6 @@ export function AuthProvider({ children } : {children: ReactNode}) {
         try {
             await fetch(`${api_url}/Login/logout`, {method: 'POST', credentials: 'include'});
         } finally {
-            localStorage.removeItem('isLoggedIn');
             setIsAuthenticated(false);
         }
     };
