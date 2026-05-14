@@ -16,6 +16,7 @@ import AccountLinker from './AccountLinker.tsx'
 import { AuthProvider, useAuth } from './AuthContext.tsx'
 import AccountPage from './AccountPage.tsx'
 import { addPostHistoryEntry } from './postHistory.tsx';
+import AuthCallbackHandler from './AuthCallbackHandler.tsx'
 
 function ProtectedRoute({children} : { children: ReactNode}) {
   const {isAuthenticated, loading} = useAuth();
@@ -67,7 +68,7 @@ function HomePage() {
       if(response.ok) {
         const data = await response.json();
         setAiResponse(data.response);
-        addPostHistoryEntry(prompt, data.response);
+        await addPostHistoryEntry(prompt, data.response);
       }
       else {
         const errorData = await response.text();
@@ -102,7 +103,7 @@ function HomePage() {
       if(response.ok) {
         const data = await response.json();
         setAiResponse(data.response);
-        addPostHistoryEntry(prompt, data.response);
+        await addPostHistoryEntry(prompt, data.response);
       }
       else {
         const errorData = await response.text();
@@ -155,6 +156,7 @@ function HomePage() {
   }
   */
 
+  /*
   const handlePublish = async () => {
     if(!aiResponse || aiResponse == "Your post will appear here") return alert("Generate post first");
     if(selectedPlatforms.length === 0) return alert("Select at least one platform");
@@ -169,7 +171,7 @@ function HomePage() {
 
       if(connection && connection.platform.type === "LinkedIn") {
         try {
-          const res = await fetch(`${api_url}/LinkedIn/post`, {
+          const res = await fetch(`${api_url}/PostPublish/publish/linkedin`, {
             method: 'POST',
             headers: {'Content-Type': 'application/json'},
             body: JSON.stringify({
@@ -217,6 +219,66 @@ function HomePage() {
         }
     } catch (err) {
         console.error("Error with saving post", err);
+    }
+  }
+  */
+
+  const handlePublish = async () => {
+    if(!aiResponse || aiResponse === "Your post will appear here") return alert("Generate post first");
+    if(selectedPlatforms.length === 0) return alert("Select at least one platform");
+
+    try {
+      const saveResponse = await fetch(`${api_url}/Post/add`, {
+        method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({
+                Title: prompt.substring(0, 20),
+                Body: aiResponse,
+                promptText: prompt,
+                PlatformIds: selectedPlatforms
+            }),
+            credentials: 'include',
+      });
+
+      if(!saveResponse.ok) {
+        throw new Error("Failed to save post to database before publishing");
+      }
+
+      const savedPost = await saveResponse.json();
+      const newPostId = savedPost.id;
+
+      for(const platformId of selectedPlatforms) {
+        const connection = userConnections.find(con => con.platform.id === platformId);
+
+        if(connection && connection.platform.type === "LinkedIn") {
+          const res = await fetch(`${api_url}/PostPublish/publish/linkedin`, {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({
+              postId: newPostId,
+              userPlatformId: connection.id,
+              status: 0
+            }),
+            credentials: 'include'
+          });
+
+          if(!res.ok) {
+            const errorText = await res.text();
+            console.error("LinkedIn error:", errorText);
+          }
+          else {
+            alert("Published on LinkedIn");
+          }
+        }
+      }
+
+      setAiResponse("Your post will appear here");
+      setPrompt("");
+      setSelectedPlatforms([]);
+    } 
+    catch(err) {
+      console.error("Error while publishing to LinkedIn", err);
+      alert("Something went wrong while publishing the post.");
     }
   }
 
@@ -269,6 +331,7 @@ function App() {
         <Route path="/linker" element={<ProtectedRoute><AccountLinker /></ProtectedRoute>} />
         <Route path="/about" element={<ProtectedRoute><AboutPage /></ProtectedRoute>} />
         <Route path="/contact" element={<ProtectedRoute><ContactPage /></ProtectedRoute>} />
+        <Route path="/auth/callback/:platformName" element={<ProtectedRoute><AuthCallbackHandler /></ProtectedRoute>} />
       </Routes>
     </AuthProvider>
     
