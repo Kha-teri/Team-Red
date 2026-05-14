@@ -4,8 +4,8 @@ import type { ReactNode } from 'react';
 interface AuthContextType {
     verifySession: () => Promise<boolean>;
     isAuthenticated: boolean;
-    register: (fullName: string, email: string, password: string) => Promise<boolean>
-    login: (email: string, password: string) => Promise<boolean>;
+    register: (fullName: string, email: string, password: string) => Promise<string | null>
+    login: (email: string, password: string) => Promise<string | null>;
     logout: () => Promise<void>
     loading: boolean;
 }
@@ -56,15 +56,20 @@ export function AuthProvider({ children } : {children: ReactNode}) {
 
             if(response.ok) {
                 setIsAuthenticated(true);
-                return true;
+                return null;
             }
 
-            console.error("Login failed with status:", response.status);
-            return false;
+            try {
+                const data = await response.json();
+                if(data.description) return data.description;
+            } catch {}
 
-        } catch(error) { 
+            if(response.status === 401) return 'Invalid username or password';
+            return 'Something went wrong, please try again';
+
+        } catch(error) {
             console.error("Network error: ", error);
-            return false; 
+            return 'Could not connect to the server';
         }
     }
 
@@ -75,8 +80,15 @@ export function AuthProvider({ children } : {children: ReactNode}) {
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify({ username, email, userName: username, password })
             });
-            return response.ok;
-        } catch { return false; }
+            if(response.ok) return null;
+
+            try {
+                const data = await response.json();
+                if(data.description) return data.description;
+            } catch {}
+
+            return 'Something went wrong, please try again';
+        } catch { return 'Could not connect to the server'; }
     }
 
     const logout = async () => {
