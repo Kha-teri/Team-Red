@@ -60,3 +60,10 @@
     display: flex;
     justify-content: flex-end;
 }
+
+.error {
+    color: #f85149;
+    font-family: $font-main;
+    font-size: 1.3rem;
+    margin: 0;
+}
