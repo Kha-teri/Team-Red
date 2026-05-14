@@ -59,6 +59,11 @@ export function AuthProvider({ children } : {children: ReactNode}) {
                 return null;
             }
 
+            try {
+                const data = await response.json();
+                if(data.description) return data.description;
+            } catch {}
+
             if(response.status === 401) return 'Invalid username or password';
             return 'Something went wrong, please try again';
 
@@ -76,8 +81,12 @@ export function AuthProvider({ children } : {children: ReactNode}) {
                 body: JSON.stringify({ username, email, userName: username, password })
             });
             if(response.ok) return null;
-            if(response.status === 409) return 'An account with this email already exists';
-            if(response.status === 400) return 'Invalid data submitted';
+
+            try {
+                const data = await response.json();
+                if(data.description) return data.description;
+            } catch {}
+
             return 'Something went wrong, please try again';
         } catch { return 'Could not connect to the server'; }
     }
